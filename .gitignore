@@ -1,0 +1,25 @@
+# PlatformIO and environment
+.pio/
+.vscode/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# KiCad temporary files
+*.kicad_prl
+*.lck
+*-bak
+*-erc.rpt
+.history/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local scripts and test captures
+*.bat
+camera_source.txt
+test_frame_*.jpg
+test_*.py
+scad_test.png

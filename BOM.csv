@@ -1,0 +1,16 @@
+Item No.,Component Name,Purpose on Aura v1,Quantity,Price (INR),Vendor
+1,Raspberry Pi 3 Model B (1GB),Main AI Brain & Computer Vision,1,₹3850,MakerBazar.in
+2,160° Wide-Angle CSI Camera (OV5647),Person Tracking & Auto-Docking,1,₹749,Robu.in
+3,TowerPro MG90S Metal Gear Servos,2-Axis Pan-Tilt Camera Gimbal,2,₹252,Robu.in
+4,XL4015 5A DC-DC Buck Converter,5.1V Clean Power Rail for Pi 3B,1,₹109,Robu.in
+5,LM2596S 3A DC-DC Buck Converter,5.0V Rail for Servos & LEDs,1,₹69,Robu.in
+6,18650 2200mAh Li-ion Cells (3S2P),11.1V 4400mAh High-Torque Pack,6,₹936,Robu.in
+7,3S 20A Li-ion BMS Protection Board,Battery Safety & Balance Protection,1,₹149,Robu.in
+8,12.6V 2A CC/CV Smart Charger,Auto-Docking Station Power Supply,1,₹380,ElectronicsComp.com
+9,ESP32-C3 SuperMini Board,Stationary Bedroom Satellite Pod,1,₹279,Robu.in
+10,INMP441 I2S MEMS Microphone,Digital Voice AI Input for Pi,1,₹149,Robu.in
+11,SmartElex MAX98357A I2S Amplifier,3.2W Class-D Digital Audio Amp,1,₹194,Robu.in
+12,3W 4Ω Enclosed Cavity Speaker,Room Voice & Music Playback,1,₹80,MakerBazar.in
+13,WS2812 8-Bit Straight RGB LED Strip,Visual State Feedback Lightbar,1,₹49,Robu.in
+14,M3 Brass Standoffs Assorted Box,Dual-Deck Chassis Assembly,1,₹160,Robu.in
+TOTAL,,,,₹7405 (~$89.20 USD),
