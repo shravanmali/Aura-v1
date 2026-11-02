@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura v1 - Precision 3D CAD Digital Twin</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        body {
+            background-color: #0b0f17;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #ui-header {
+            position: absolute;
+            top: 18px;
+            left: 22px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        #ui-header h1 {
+            font-size: 22px;
+            color: #58a6ff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #ui-header p {
+            font-size: 13px;
+            color: #8b949e;
+            margin-top: 4px;
+        }
+        .badge {
+            background: rgba(56, 139, 253, 0.18);
+            border: 1px solid rgba(56, 139, 253, 0.45);
+            color: #58a6ff;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        #controls-panel {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(22, 27, 34, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(48, 54, 61, 0.85);
+            border-radius: 14px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+        .btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #30363d;
+            border-color: #8b949e;
+            color: #ffffff;
+        }
+        .btn.active {
+            background: #1f6feb;
+            border-color: #388bfd;
+            color: #ffffff;
+        }
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #8b949e;
+        }
+        .slider-group input {
+            cursor: pointer;
+        }
+        #sidebar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 320px;
+            max-height: calc(100vh - 40px);
+            background: rgba(22, 27, 34, 0.92);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(48, 54, 61, 0.85);
+            border-radius: 12px;
+            padding: 16px;
+            overflow-y: auto;
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.65);
+        }
+        #sidebar h2 {
+            font-size: 14px;
+            color: #f0f6fc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .comp-item {
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            background: rgba(13, 17, 23, 0.65);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .comp-item:hover {
+            background: #21262d;
+            border-color: #58a6ff;
+            transform: translateX(-2px);
+        }
+        .comp-item .title {
+            font-weight: 600;
+            color: #58a6ff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .comp-item .desc {
+            font-size: 11px;
+            color: #8b949e;
+        }
+        #info-card {
+            position: absolute;
+            top: 85px;
+            left: 22px;
+            width: 330px;
+            background: rgba(22, 27, 34, 0.94);
+            backdrop-filter: blur(14px);
+            border: 1px solid #58a6ff;
+            border-radius: 10px;
+            padding: 16px;
+            z-index: 10;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.7);
+            display: none;
+        }
+        #info-card h3 {
+            font-size: 15px;
+            color: #58a6ff;
+            margin-bottom: 6px;
+        }
+        #info-card p {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #c9d1d9;
+        }
+        #info-card .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #info-card .specs {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #30363d;
+            font-size: 11px;
+            color: #7ee787;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div id="ui-header">
+        <h1>AURA v1 <span class="badge">PRECISION CAD MODEL</span></h1>
+        <p>Correct Axles, True Orientations & Integrated Dual-Deck Packaging</p>
+    </div>
+
+    <div id="info-card">
+        <button class="close-btn" onclick="closeInfoCard()">&times;</button>
+        <h3 id="card-title">Component Name</h3>
+        <p id="card-desc">Detailed specification and role.</p>
+        <div class="specs" id="card-specs">Specs / Placement info</div>
+    </div>
+
+    <div id="controls-panel">
+        <button class="btn" id="btn-rotate" onclick="toggleAutoRotate()">
+            <span>🔄</span> Auto-Rotate
+        </button>
+        <button class="btn" id="btn-wireframe" onclick="toggleWireframe()">
+            <span>📐</span> Wireframe
+        </button>
+        <button class="btn" id="btn-transparent" onclick="toggleTransparency()">
+            <span>🔍</span> X-Ray Decks
+        </button>
+        <div class="slider-group">
+            <span>Exploded View:</span>
+            <input type="range" id="explode-slider" min="0" max="100" value="0" oninput="onExplodeChange(this.value)">
+        </div>
+        <button class="btn" onclick="takeScreenshot()">
+            <span>📷</span> 4K Render
+        </button>
+        <button class="btn" onclick="resetView()">
+            <span>🎯</span> Reset
+        </button>
+    </div>
+
+    <div id="sidebar">
+        <h2>Component Directory <span class="badge">14 Subsystems</span></h2>
+        <div id="comp-list"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+
+    <script>
+        // --- 1. Scene Setup ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0b0f17);
+        scene.fog = new THREE.FogExp2(0x0b0f17, 0.0016);
+
+        // Coordinate System:
+        // +X = Right,  -X = Left
+        // +Y = Up,     -Y = Down
+        // -Z = FRONT (Forward Motion), +Z = REAR (Back)
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+        camera.position.set(240, 190, 260);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 + 0.05;
+        controls.minDistance = 60;
+        controls.maxDistance = 750;
+        controls.target.set(0, 30, 0);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.25);
+        dirLight.position.set(160, 260, 160);
+        dirLight.castShadow = true;
+        dirLight.shadow.mapSize.width = 2048;
+        dirLight.shadow.mapSize.height = 2048;
+        dirLight.shadow.camera.near = 10;
+        dirLight.shadow.camera.far = 700;
+        const d = 160;
+        dirLight.shadow.camera.left = -d;
+        dirLight.shadow.camera.right = d;
+        dirLight.shadow.camera.top = d;
+        dirLight.shadow.camera.bottom = -d;
+        scene.add(dirLight);
+
+        const blueRimLight = new THREE.DirectionalLight(0x388bfd, 0.85);
+        blueRimLight.position.set(-160, 90, -160);
+        scene.add(blueRimLight);
+
+        // Floor Grid (Below wheels)
+        const gridHelper = new THREE.GridHelper(500, 50, 0x1f6feb, 0x161b22);
+        gridHelper.position.y = -35;
+        scene.add(gridHelper);
+
+        // --- 2. Materials ---
+        const matAcrylic = new THREE.MeshStandardMaterial({
+            color: 0x161b22,
+            metalness: 0.15,
+            roughness: 0.25,
+            transparent: true,
+            opacity: 0.94
+        });
+
+        const matBrass = new THREE.MeshStandardMaterial({
+            color: 0xd4af37,
+            metalness: 0.9,
+            roughness: 0.2
+        });
+
+        const matPCBGreen = new THREE.MeshStandardMaterial({
+            color: 0x0e7039,
+            metalness: 0.25,
+            roughness: 0.5
+        });
+
+        const matPCBRBlue = new THREE.MeshStandardMaterial({
+            color: 0x1f6feb,
+            metalness: 0.3,
+            roughness: 0.5
+        });
+
+        const matPCBPurple = new THREE.MeshStandardMaterial({
+            color: 0x6e40c9,
+            metalness: 0.3,
+            roughness: 0.5
+        });
+
+        const matMotorYellow = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b, // BO Motor yellow
+            metalness: 0.1,
+            roughness: 0.4
+        });
+
+        const matTireBlack = new THREE.MeshStandardMaterial({
+            color: 0x1c1917,
+            metalness: 0.1,
+            roughness: 0.85
+        });
+
+        const matRimYellow = new THREE.MeshStandardMaterial({
+            color: 0xfbbf24,
+            metalness: 0.2,
+            roughness: 0.3
+        });
+
+        const matHeatsink = new THREE.MeshStandardMaterial({
+            color: 0x09090b,
+            metalness: 0.9,
+            roughness: 0.25
+        });
+
+        const matMetalSilver = new THREE.MeshStandardMaterial({
+            color: 0xd1d5db,
+            metalness: 0.88,
+            roughness: 0.2
+        });
+
+        const matGoldContacts = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b,
+            metalness: 0.95,
+            roughness: 0.15
+        });
+
+        const matLens = new THREE.MeshStandardMaterial({
+            color: 0x09090b,
+            metalness: 0.95,
+            roughness: 0.1
+        });
+
+        const matLightGlow = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            emissive: 0xfffbeb,
+            emissiveIntensity: 0.9
+        });
+
+        // --- 3. Component Data Catalog ---
+        const componentsData = [
+            {
+                id: 'wheels',
+                name: '4WD BO Motors & Yellow Wheels',
+                category: 'Locomotion & Kinematics',
+                desc: '4x Dual-shaft 200 RPM BO geared motors clamped under the bottom chassis plate. Axles run Left-Right (+/-X axis) so wheels roll cleanly forward and reverse.',
+                specs: '4x BO Motors • 66mm Rubber Tread Wheels • 4WD Skid-Steer'
+            },
+            {
+                id: 'ultrasonic_bumper',
+                name: 'Front Bumper & HC-SR04 Ultrasonic Sensor',
+                category: 'Collision Avoidance',
+                desc: 'Mounted low on the front bumper (centered at -Z front, 40mm above ground). Transducer barrels point dead forward into direction of travel.',
+                specs: 'HC-SR04 • 2cm - 400cm range • <1ms Emergency Stop'
+            },
+            {
+                id: 'dock_plates',
+                name: 'Front Auto-Docking Contact Plates',
+                category: 'Power & Docking',
+                desc: 'Two heavy-duty brass/copper contact plates mounted on the Left (+) and Right (-) corners of the front bumper with inline Schottky safety diode.',
+                specs: '12.6V 2A Charging Input • Protected against accidental shorts'
+            },
+            {
+                id: 'gimbal',
+                name: '2-Axis Pan-Tilt Gimbal',
+                category: 'Sensory Head',
+                desc: 'Dual MG90S metal-gear servos mounted firmly on the front of the Top Deck. Pan base rotates 180° horizontally; tilt platform elevates 120°.',
+                specs: '2x MG90S Metal Servos • 1.8 kg/cm torque • Top-Front Center'
+            },
+            {
+                id: 'camera',
+                name: 'CSI 160° Wide-Angle Camera',
+                category: 'Vision Tracking',
+                desc: 'OV5647 5MP Camera with 160° Field-of-View mounted on the gimbal tilt platform so its optical axis aligns with head movement.',
+                specs: '160° FoV • 5MP • Direct Ribbon Cable to Pi 3B CSI'
+            },
+            {
+                id: 'floodlights',
+                name: 'Dual Night Vision Floodlights',
+                category: 'Illumination',
+                desc: 'Twin high-intensity LED light pods mounted directly on the gimbal tilt head flanking the camera. Illumination beam tracks where the robot looks.',
+                specs: 'Controlled via ESP32 MOSFET • Auto-triggered on low ambient light'
+            },
+            {
+                id: 'ir_docking',
+                name: 'Auto-Docking IR Diodes',
+                category: 'Navigation',
+                desc: 'Left and Right Photodiode receivers on the front head for balancing infrared beacon alignment during charging dock approach.',
+                specs: 'Differential vector steering • 38 kHz modulated carrier'
+            },
+            {
+                id: 'rpi3b',
+                name: 'Raspberry Pi 3 Model B',
+                category: 'High-Level Brain',
+                desc: 'Main AI brain running Linux, OpenCV face tracking, MediaPipe gym rep counting, yt-dlp voice music streaming, and WebRTC telemetry.',
+                specs: 'Quad-Core 1.2GHz • 1GB LPDDR2 RAM • 4x USB • CSI Port'
+            },
+            {
+                id: 'esp32s3',
+                name: 'ESP32-S3 DevKit-C (N16R8)',
+                category: 'Real-Time Controller',
+                desc: 'Zero-latency motor kinematics controller. Executes skid-steer PWM, gimbal servo PWM, ultrasonic timing, and battery voltage ADC.',
+                specs: '240MHz Dual-Core Xtensa • 16MB Flash • 8MB PSRAM'
+            },
+            {
+                id: 'mic_tower',
+                name: 'INMP441 I2S MEMS Microphone',
+                category: 'Voice Input',
+                desc: 'Mounted on an isolated acoustic tower facing UPWARD on the top deck. Foam-damped to isolate from motor hum and speaker echo.',
+                specs: '24-bit Digital I2S Audio • Omnidirectional • Direct to Pi GPIO'
+            },
+            {
+                id: 'speaker',
+                name: '3W 4Ω Enclosed Chamber Speaker',
+                category: 'Voice & Music',
+                desc: 'Mounted on the rear deck angled 45° UPWARD and BACKWARD. Fires speech and music into the room while acoustically isolating the front microphone.',
+                specs: 'MAX98357A I2S Amplifier • 3.2W Peak • 100Hz - 20kHz'
+            },
+            {
+                id: 'dht_sensor',
+                name: 'DHT Temperature & Humidity Sensor',
+                category: 'Environmental Sentry',
+                desc: 'Monitors ambient room climate. Feeds closed-loop AC control via ESP32 IR blaster to maintain room at target 24°C automatically.',
+                specs: '0-50°C • 20-90% RH • 2-second sampling interval'
+            },
+            {
+                id: 'battery_pack',
+                name: '3S2P 18650 Battery Pack + BMS',
+                category: 'Power Reservoir',
+                desc: '6x 2200mAh 18650 Li-ion cells in 3S2P (11.1V nominal, 12.6V max, 4400mAh). Mounted bottom-center for rock-solid low center of gravity.',
+                specs: '4400mAh • 3S 20A BMS Protection • 10-12 hours runtime'
+            },
+            {
+                id: 'l298n',
+                name: 'L298N Dual H-Bridge Driver',
+                category: 'Motor Driving',
+                desc: 'High-current dual H-bridge driving the 4 BO motors with 12V power rail, onboard 5V regulator, and emergency watchdog cutoff.',
+                specs: 'Dual H-Bridge • Up to 2A per channel • Heat-sink cooled'
+            },
+            {
+                id: 'ws2812_strip',
+                name: 'WS2812 8-Bit Straight RGB LED Strip',
+                category: 'Visual State Indicator',
+                desc: 'Straight 8-pixel addressable RGB LED bar mounted along the top edge of the 45° rear speaker box. Displays real-time assistant states: Listening (Teal), Thinking (Blue Wipe), Speaking (Purple Pulse), and Ringing (Red Scanner).',
+                specs: '8x 5050 Addressable RGB LEDs • ESP32 RMT Driven • 5V Rail'
+            }
+        ];
+
+        // --- 4. 3D Model Procedural Assembly ---
+        const roverRoot = new THREE.Group();
+        scene.add(roverRoot);
+
+        // Subgroups for Exploded View
+        const lowerDeckGroup = new THREE.Group();
+        const upperDeckGroup = new THREE.Group();
+        const wheelsGroup = new THREE.Group();
+        roverRoot.add(lowerDeckGroup);
+        roverRoot.add(upperDeckGroup);
+        roverRoot.add(wheelsGroup);
+
+        // ----------------------------------------------------
+        // A. BOTTOM CHASSIS DECK (180mm Length [Z] x 140mm Width [X] x 3mm Thick)
+        // ----------------------------------------------------
+        // Length along Z = 180, Width along X = 140
+        const bottomPlateGeo = new THREE.BoxGeometry(140, 3, 180);
+        const bottomPlate = new THREE.Mesh(bottomPlateGeo, matAcrylic);
+        bottomPlate.position.set(0, 0, 0);
+        bottomPlate.castShadow = true;
+        bottomPlate.receiveShadow = true;
+        lowerDeckGroup.add(bottomPlate);
+
+        // 4x M3 Brass Standoffs (45mm height connecting decks)
+        const standoffGeo = new THREE.CylinderGeometry(2.5, 2.5, 45, 16);
+        const standoffPositions = [
+            [-60, 22.5, -80], // Front-Left
+            [ 60, 22.5, -80], // Front-Right
+            [-60, 22.5,  80], // Rear-Left
+            [ 60, 22.5,  80]  // Rear-Right
+        ];
+        standoffPositions.forEach(pos => {
+            const standoff = new THREE.Mesh(standoffGeo, matBrass);
+            standoff.position.set(pos[0], pos[1], pos[2]);
+            standoff.castShadow = true;
+            lowerDeckGroup.add(standoff);
+        });
+
+        // ----------------------------------------------------
+        // B. 4WD BO MOTORS & WHEELS (CORRECT AXLE ORIENTATION)
+        // ----------------------------------------------------
+        // Wheels MUST have their axle along the X-AXIS (Left-Right)
+        // and roll along the Z-AXIS (Forward-Backward)!
+        function createWheelAndMotor(x, z, isLeft) {
+            const motorGroup = new THREE.Group();
+
+            // 1. BO Gearbox Body (clamped under bottom plate)
+            // Length along Z=45, Width along X=22, Height Y=20
+            const gearboxGeo = new THREE.BoxGeometry(22, 20, 45);
+            const gearbox = new THREE.Mesh(gearboxGeo, matMotorYellow);
+            gearbox.position.set(isLeft ? x + 18 : x - 18, -12, z);
+            gearbox.castShadow = true;
+            motorGroup.add(gearbox);
+
+            // 2. White Plastic Output Axle Shaft (extends out to wheel)
+            const shaftGeo = new THREE.CylinderGeometry(2.8, 2.8, 12, 12);
+            shaftGeo.rotateZ(Math.PI / 2); // Shaft along X-AXIS!
+            const shaft = new THREE.Mesh(shaftGeo, matMetalSilver);
+            shaft.position.set(isLeft ? x + 6 : x - 6, -12, z);
+            motorGroup.add(shaft);
+
+            // 3. Wheel Rim & Rubber Tire
+            // In Three.js, Cylinder points along Y by default.
+            // Rotating around Z by 90° points the cylinder along the X-AXIS!
+            const tireRadius = 33; // 66mm diameter standard BO wheel
+            const tireWidth = 22;
+            const tireGeo = new THREE.CylinderGeometry(tireRadius, tireRadius, tireWidth, 24);
+            tireGeo.rotateZ(Math.PI / 2); // ROTATED ALONG X-AXIS! CORRECT!
+
+            const tire = new THREE.Mesh(tireGeo, matTireBlack);
+            tire.position.set(x, -12, z);
+            tire.castShadow = true;
+            motorGroup.add(tire);
+
+            // Yellow Center Rim Hub
+            const rimGeo = new THREE.CylinderGeometry(20, 20, tireWidth + 1, 16);
+            rimGeo.rotateZ(Math.PI / 2);
+            const rim = new THREE.Mesh(rimGeo, matRimYellow);
+            rim.position.set(x, -12, z);
+            motorGroup.add(rim);
+
+            return motorGroup;
+        }
+
+        // Wheel Positions: X = +/-80 (outside chassis), Z = +/-50 (Front & Rear axles)
+        wheelsGroup.add(createWheelAndMotor(-80, -50, true));  // Front-Left
+        wheelsGroup.add(createWheelAndMotor( 80, -50, false)); // Front-Right
+        wheelsGroup.add(createWheelAndMotor(-80,  50, true));  // Rear-Left
+        wheelsGroup.add(createWheelAndMotor( 80,  50, false)); // Rear-Right
+
+        // ----------------------------------------------------
+        // C. BOTTOM DECK COMPONENTS (Power & Muscle)
+        // ----------------------------------------------------
+        // 1. 3S2P 18650 Battery Pack (Lowest Center of Gravity, Dead Center)
+        const batteryGroup = new THREE.Group();
+        batteryGroup.position.set(0, 12, 5);
+        const cellGeo = new THREE.CylinderGeometry(9, 9, 65, 16);
+        // Cells lay along X-axis (width)
+        cellGeo.rotateZ(Math.PI / 2);
+        const matCellOrange = new THREE.MeshStandardMaterial({ color: 0xdd6b20, roughness: 0.3 });
+        for (let r = 0; r < 2; r++) {
+            for (let c = 0; c < 3; c++) {
+                const cell = new THREE.Mesh(cellGeo, matCellOrange);
+                cell.position.set(0, r * 19, (c - 1) * 20);
+                cell.castShadow = true;
+                batteryGroup.add(cell);
+            }
+        }
+        // BMS Protection Board on side of pack
+        const bmsGeo = new THREE.BoxGeometry(50, 18, 3);
+        const bms = new THREE.Mesh(bmsGeo, matPCBGreen);
+        bms.position.set(0, 10, -25);
+        batteryGroup.add(bms);
+        lowerDeckGroup.add(batteryGroup);
+
+        // 2. L298N Dual Motor Driver (Rear-Center of bottom deck)
+        const l298nGroup = new THREE.Group();
+        l298nGroup.position.set(0, 8, 55);
+        const l298nPCB = new THREE.Mesh(new THREE.BoxGeometry(44, 4, 44), matPCBRBlue);
+        l298nPCB.castShadow = true;
+        l298nGroup.add(l298nPCB);
+        // Aluminum finned heatsink
+        const heatsink = new THREE.Mesh(new THREE.BoxGeometry(22, 18, 14), matHeatsink);
+        heatsink.position.set(0, 10, 0);
+        l298nGroup.add(heatsink);
+        lowerDeckGroup.add(l298nGroup);
+
+        // 3. XL4015 (5A) & LM2596 (3A) Buck Converters (Side Rails)
+        const buckGeo = new THREE.BoxGeometry(22, 10, 42);
+        const xl4015 = new THREE.Mesh(buckGeo, matPCBRBlue);
+        xl4015.position.set(-45, 7, 0);
+        lowerDeckGroup.add(xl4015);
+
+        const lm2596 = new THREE.Mesh(buckGeo, matPCBRBlue);
+        lm2596.position.set( 45, 7, 0);
+        lowerDeckGroup.add(lm2596);
+
+        // ----------------------------------------------------
+        // D. TOP CHASSIS DECK (140mm X x 180mm Z x 3mm Y)
+        // ----------------------------------------------------
+        const topPlate = new THREE.Mesh(bottomPlateGeo, matAcrylic);
+        topPlate.position.set(0, 45, 0);
+        topPlate.castShadow = true;
+        upperDeckGroup.add(topPlate);
+
+        // ----------------------------------------------------
+        // E. FRONT BUMPER & ULTRASONIC SENSOR (CORRECT POSITION: -Z FRONT)
+        // ----------------------------------------------------
+        const frontBumperGroup = new THREE.Group();
+        // Front lip of chassis is Z = -90. Bumper sits at Z = -95
+        frontBumperGroup.position.set(0, 20, -94);
+
+        // Bumper Bar Mounting Bracket
+        const bumperBar = new THREE.Mesh(new THREE.BoxGeometry(140, 20, 5), matAcrylic);
+        frontBumperGroup.add(bumperBar);
+
+        // HC-SR04 Ultrasonic Sensor (Dead Center of Bumper, facing -Z FORWARD)
+        const sonicGroup = new THREE.Group();
+        sonicGroup.position.set(0, 0, -3);
+
+        const sonicPCB = new THREE.Mesh(new THREE.BoxGeometry(45, 20, 2), matPCBRBlue);
+        sonicGroup.add(sonicPCB);
+
+        // Transducer Cylinders (Ears/Eyes pointing FORWARD along -Z axis)
+        const eyeGeo = new THREE.CylinderGeometry(8, 8, 12, 18);
+        eyeGeo.rotateX(Math.PI / 2); // Faces along Z-AXIS! Pointing forward!
+
+        const eyeLeft = new THREE.Mesh(eyeGeo, matMetalSilver);
+        eyeLeft.position.set(-13, 0, -6);
+        const eyeRight = new THREE.Mesh(eyeGeo, matMetalSilver);
+        eyeRight.position.set(13, 0, -6);
+        sonicGroup.add(eyeLeft);
+        sonicGroup.add(eyeRight);
+
+        // Silver Crystal Oscillator between eyes
+        const crystal = new THREE.Mesh(new THREE.BoxGeometry(4, 10, 3), matMetalSilver);
+        crystal.position.set(0, 0, -2);
+        sonicGroup.add(crystal);
+
+        frontBumperGroup.add(sonicGroup);
+
+        // Front Auto-Docking Contact Plates (Left & Right Corners of Bumper)
+        const contactPlateGeo = new THREE.BoxGeometry(16, 22, 4);
+        const contactL = new THREE.Mesh(contactPlateGeo, matGoldContacts);
+        contactL.position.set(-58, 0, -3);
+        const contactR = new THREE.Mesh(contactPlateGeo, matGoldContacts);
+        contactR.position.set( 58, 0, -3);
+        frontBumperGroup.add(contactL);
+        frontBumperGroup.add(contactR);
+
+        lowerDeckGroup.add(frontBumperGroup);
+
+        // ----------------------------------------------------
+        // F. 2-AXIS PAN-TILT GIMBAL HEAD (TOP-FRONT CENTER: Z = -55)
+        // ----------------------------------------------------
+        const gimbalGroup = new THREE.Group();
+        // Sits firmly on top deck (Y = 46.5), near front edge (Z = -55)
+        gimbalGroup.position.set(0, 46.5, -55);
+
+        // 1. Pan Base Servo (MG90S) firmly seated on deck
+        const panServoBody = new THREE.Mesh(new THREE.BoxGeometry(23, 24, 12.5), matPCBRBlue);
+        panServoBody.position.set(0, 12, 0);
+        gimbalGroup.add(panServoBody);
+
+        // Pan Horn Disc
+        const panDisc = new THREE.Mesh(new THREE.CylinderGeometry(10, 10, 3, 16), matMetalSilver);
+        panDisc.position.set(0, 25, 0);
+        gimbalGroup.add(panDisc);
+
+        // 2. Tilt U-Bracket
+        const uBracketGroup = new THREE.Group();
+        uBracketGroup.position.set(0, 26, 0);
+        const uBase = new THREE.Mesh(new THREE.BoxGeometry(34, 3, 20), matAcrylic);
+        uBracketGroup.add(uBase);
+        const uArmL = new THREE.Mesh(new THREE.BoxGeometry(3, 24, 18), matAcrylic);
+        uArmL.position.set(-16, 12, 0);
+        const uArmR = new THREE.Mesh(new THREE.BoxGeometry(3, 24, 18), matAcrylic);
+        uArmR.position.set( 16, 12, 0);
+        uBracketGroup.add(uArmL);
+        uBracketGroup.add(uArmR);
+        gimbalGroup.add(uBracketGroup);
+
+        // 3. Tilt Head Platform (holds Camera, Lights, IR)
+        const headPlatform = new THREE.Group();
+        headPlatform.position.set(0, 38, 0);
+
+        // Camera Module PCB (facing -Z Forward)
+        const camPCB = new THREE.Mesh(new THREE.BoxGeometry(25, 25, 2), matPCBGreen);
+        headPlatform.add(camPCB);
+
+        // Camera Lens Barrel pointing dead forward (-Z)
+        const camLens = new THREE.Mesh(new THREE.CylinderGeometry(6.5, 7.5, 11, 16), matLens);
+        camLens.rotation.x = Math.PI / 2;
+        camLens.position.set(0, 0, -6);
+        headPlatform.add(camLens);
+
+        // Dual Night Vision Floodlights (Flanking camera left and right)
+        const lightGeo = new THREE.BoxGeometry(7, 7, 4);
+        const floodLightL = new THREE.Mesh(lightGeo, matLightGlow);
+        floodLightL.position.set(-18, 0, -2);
+        const floodLightR = new THREE.Mesh(lightGeo, matLightGlow);
+        floodLightR.position.set( 18, 0, -2);
+        headPlatform.add(floodLightL);
+        headPlatform.add(floodLightR);
+
+        // Dual IR Auto-Docking Diodes (Under camera)
+        const irGeo = new THREE.CylinderGeometry(2.5, 2.5, 6, 12);
+        irGeo.rotateX(Math.PI / 2);
+        const matIR = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.1 });
+        const irL = new THREE.Mesh(irGeo, matIR);
+        irL.position.set(-9, -9, -3);
+        const irR = new THREE.Mesh(irGeo, matIR);
+        irR.position.set( 9, -9, -3);
+        headPlatform.add(irL);
+        headPlatform.add(irR);
+
+        gimbalGroup.add(headPlatform);
+        upperDeckGroup.add(gimbalGroup);
+
+        // ----------------------------------------------------
+        // G. TOP DECK ELECTRONICS (Spaced Packaging: Zero Collisions)
+        // ----------------------------------------------------
+        // 1. Raspberry Pi 3 Model B (Left Side Deck: X = -34, Z = -6)
+        const rpiGroup = new THREE.Group();
+        rpiGroup.position.set(-34, 48.5, -6);
+        const rpiPCB = new THREE.Mesh(new THREE.BoxGeometry(56, 2, 85), matPCBGreen);
+        rpiPCB.castShadow = true;
+        rpiGroup.add(rpiPCB);
+        // USB Stack & Ethernet Jacks (facing rear)
+        const usbBlock = new THREE.Mesh(new THREE.BoxGeometry(28, 16, 16), matMetalSilver);
+        usbBlock.position.set(-6, 9, 36);
+        rpiGroup.add(usbBlock);
+        const ethBlock = new THREE.Mesh(new THREE.BoxGeometry(16, 15, 18), matMetalSilver);
+        ethBlock.position.set(18, 9, 36);
+        rpiGroup.add(ethBlock);
+        // SoC Processor with aluminum heat spreader
+        const socChip = new THREE.Mesh(new THREE.BoxGeometry(14, 2, 14), matMetalSilver);
+        socChip.position.set(0, 2, -6);
+        rpiGroup.add(socChip);
+        // 40-Pin GPIO Header (along outer edge)
+        const gpioHeader = new THREE.Mesh(new THREE.BoxGeometry(6, 6, 52), matHeatsink);
+        gpioHeader.position.set(-24, 4, -8);
+        rpiGroup.add(gpioHeader);
+        upperDeckGroup.add(rpiGroup);
+
+        // 2. ESP32-S3 DevKit-C (Right Side Deck: X = 38, Z = -6)
+        const espGroup = new THREE.Group();
+        espGroup.position.set(38, 48.5, -6);
+        const espPCB = new THREE.Mesh(new THREE.BoxGeometry(26, 2, 55), matPCBRBlue);
+        espPCB.castShadow = true;
+        espGroup.add(espPCB);
+        const espShield = new THREE.Mesh(new THREE.BoxGeometry(18, 3, 24), matMetalSilver);
+        espShield.position.set(0, 2, -5);
+        espGroup.add(espShield);
+        upperDeckGroup.add(espGroup);
+
+        // 3. INMP441 Microphone Tower (Acoustic Center Island: X = 0, Z = -36)
+        // Cleanly positioned between Gimbal and Pi/ESP, zero collisions!
+        const micGroup = new THREE.Group();
+        micGroup.position.set(0, 48.5, -36);
+        const foamStandoff = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 12, 16), matTireBlack);
+        foamStandoff.position.y = 6;
+        micGroup.add(foamStandoff);
+        const micPCB = new THREE.Mesh(new THREE.CylinderGeometry(6.5, 6.5, 2, 16), matPCBPurple);
+        micPCB.position.y = 13;
+        micGroup.add(micPCB);
+        const micHole = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 2.2, 12), matGoldContacts);
+        micHole.position.y = 13.2;
+        micGroup.add(micHole);
+        upperDeckGroup.add(micGroup);
+
+        // 4. DHT11 / DHT22 Climate Sensor (Right-Rear Deck: X = 42, Z = 40)
+        const dhtGroup = new THREE.Group();
+        dhtGroup.position.set(42, 52, 40);
+        const dhtBody = new THREE.Mesh(new THREE.BoxGeometry(15, 8, 22), new THREE.MeshStandardMaterial({
+            color: 0x38bdf8,
+            roughness: 0.35
+        }));
+        dhtGroup.add(dhtBody);
+        upperDeckGroup.add(dhtGroup);
+
+        // 5. 3W Full-Range Cavity Speaker (CENTER REAR: X = 0, Z = 70, ANGLED 45° UP & REARWARD)
+        const speakerGroup = new THREE.Group();
+        // Sits cleanly on rear of top deck, centered at X=0, Z=70
+        speakerGroup.position.set(0, 56, 70);
+        // Angled +45° around X so the speaker face points 45° UP and REARWARD (+Z) into open room
+        speakerGroup.rotation.x = Math.PI / 4;
+
+        // Speaker Deck Mounting Pedestal (rests on top deck at Y = 46.5)
+        const spkPedestal = new THREE.Mesh(
+            new THREE.BoxGeometry(48, 6, 28),
+            matAcrylic
+        );
+        spkPedestal.position.set(0, -11, 0);
+        speakerGroup.add(spkPedestal);
+
+        // Rectangular black plastic acoustic cavity box (Width X=50, Height Y=18, Depth Z=36)
+        // Perfectly symmetrical enclosure
+        const spkBox = new THREE.Mesh(new THREE.BoxGeometry(50, 18, 36), matTireBlack);
+        spkBox.castShadow = true;
+        speakerGroup.add(spkBox);
+
+        // Speaker Driver Cone (PERFECTLY CENTERED & SYMMETRICAL IN BOX)
+        // Wide opening radius 15mm, sits concentric at X=0, Z=0
+        const spkCone = new THREE.Mesh(new THREE.CylinderGeometry(15, 8, 6, 32), matMetalSilver);
+        spkCone.position.set(0, 9.5, 0);
+        speakerGroup.add(spkCone);
+
+        // Center Dust Cap Dome (Concentric)
+        const dustCap = new THREE.Mesh(new THREE.SphereGeometry(4.5, 20, 20), matHeatsink);
+        dustCap.position.set(0, 11, 0);
+        speakerGroup.add(dustCap);
+
+        // Chrome Acoustic Bezel Ring (Concentric)
+        const spkBezel = new THREE.Mesh(new THREE.TorusGeometry(15, 1.2, 16, 36), matBrass);
+        spkBezel.rotation.x = Math.PI / 2;
+        spkBezel.position.set(0, 12, 0);
+        speakerGroup.add(spkBezel);
+
+        // ----------------------------------------------------
+        // 6. WS2812 8-BIT STRAIGHT RGB LED STRIP (MOUNTED ON SPEAKER BOX TOP EDGE)
+        // ----------------------------------------------------
+        // Straight 50mm stick PCB spanning the full width of the speaker box top lip
+        const ledStripGroup = new THREE.Group();
+        ledStripGroup.position.set(0, 10, -17.5); // Sits along the upper crest edge of the speaker box
+
+        // Black fiberglass PCB stick (50mm Length X x 2mm Height Y x 7mm Depth Z)
+        const stripPCB = new THREE.Mesh(new THREE.BoxGeometry(50, 2, 7), matTireBlack);
+        ledStripGroup.add(stripPCB);
+
+        // 8x Individual 5050 Addressable RGB LEDs in a straight row
+        const ledSpacing = 5.8;
+        const ledColors = [0x00f0ff, 0x00f0ff, 0x38bdf8, 0x38bdf8, 0x818cf8, 0x818cf8, 0xa855f7, 0xa855f7]; // Aura Voice Gradient
+        for (let i = 0; i < 8; i++) {
+            const xPos = (i - 3.5) * ledSpacing;
+            // White 5050 chip casing
+            const chipCase = new THREE.Mesh(
+                new THREE.BoxGeometry(4.5, 1.2, 4.5),
+                new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 })
+            );
+            chipCase.position.set(xPos, 1.2, 0);
+            ledStripGroup.add(chipCase);
+
+            // Glowing RGB Phosphor Core
+            const chipGlow = new THREE.Mesh(
+                new THREE.BoxGeometry(2.8, 1.4, 2.8),
+                new THREE.MeshStandardMaterial({
+                    color: ledColors[i],
+                    emissive: ledColors[i],
+                    emissiveIntensity: 1.2
+                })
+            );
+            chipGlow.position.set(xPos, 1.4, 0);
+            ledStripGroup.add(chipGlow);
+        }
+
+        speakerGroup.add(ledStripGroup);
+        upperDeckGroup.add(speakerGroup);
+
+        // --- 5. Interactive UI Directory Populate ---
+        const compListEl = document.getElementById('comp-list');
+        componentsData.forEach(comp => {
+            const item = document.createElement('div');
+            item.className = 'comp-item';
+            item.innerHTML = `
+                <div class="title"><span>&bull;</span> ${comp.name}</div>
+                <div class="desc">${comp.category}</div>
+            `;
+            item.onclick = () => focusComponent(comp);
+            compListEl.appendChild(item);
+        });
+
+        // --- 6. Exploded View & Control Logic ---
+        let isAutoRotate = true;
+        let isWireframe = false;
+        let isTransparent = false;
+
+        function onExplodeChange(val) {
+            const factor = val / 100.0;
+            // Move upper deck up
+            upperDeckGroup.position.y = factor * 50;
+            // Spread wheels sideways along X-AXIS!
+            wheelsGroup.children[0].position.x = -factor * 26; // FL
+            wheelsGroup.children[1].position.x =  factor * 26; // FR
+            wheelsGroup.children[2].position.x = -factor * 26; // RL
+            wheelsGroup.children[3].position.x =  factor * 26; // RR
+        }
+
+        function toggleAutoRotate() {
+            isAutoRotate = !isAutoRotate;
+            document.getElementById('btn-rotate').classList.toggle('active', isAutoRotate);
+        }
+
+        function toggleWireframe() {
+            isWireframe = !isWireframe;
+            scene.traverse(obj => {
+                if (obj.isMesh && obj.material) {
+                    obj.material.wireframe = isWireframe;
+                }
+            });
+            document.getElementById('btn-wireframe').classList.toggle('active', isWireframe);
+        }
+
+        function toggleTransparency() {
+            isTransparent = !isTransparent;
+            matAcrylic.opacity = isTransparent ? 0.35 : 0.94;
+            matAcrylic.roughness = isTransparent ? 0.1 : 0.25;
+            document.getElementById('btn-transparent').classList.toggle('active', isTransparent);
+        }
+
+        function resetView() {
+            new TWEEN.Tween(camera.position)
+                .to({ x: 240, y: 190, z: 260 }, 800)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .start();
+            new TWEEN.Tween(controls.target)
+                .to({ x: 0, y: 30, z: 0 }, 800)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .start();
+            closeInfoCard();
+        }
+
+        function focusComponent(comp) {
+            document.getElementById('card-title').innerText = comp.name;
+            document.getElementById('card-desc').innerText = comp.desc;
+            document.getElementById('card-specs').innerText = comp.specs;
+            document.getElementById('info-card').style.display = 'block';
+
+            let targetPos = { x: 0, y: 35, z: 0 };
+            if (comp.id === 'gimbal' || comp.id === 'camera' || comp.id === 'floodlights' || comp.id === 'ir_docking') {
+                targetPos = { x: 0, y: 70, z: -55 };
+            } else if (comp.id === 'ultrasonic_bumper' || comp.id === 'dock_plates') {
+                targetPos = { x: 0, y: 20, z: -95 };
+            } else if (comp.id === 'rpi3b') {
+                targetPos = { x: -34, y: 50, z: -6 };
+            } else if (comp.id === 'esp32s3') {
+                targetPos = { x: 38, y: 50, z: -6 };
+            } else if (comp.id === 'speaker' || comp.id === 'ws2812_strip') {
+                targetPos = { x: 0, y: 55, z: 70 };
+            } else if (comp.id === 'dht_sensor') {
+                targetPos = { x: 42, y: 52, z: 40 };
+            } else if (comp.id === 'mic_tower') {
+                targetPos = { x: 0, y: 52, z: -36 };
+            } else if (comp.id === 'battery_pack' || comp.id === 'l298n') {
+                targetPos = { x: 0, y: 15, z: 20 };
+            } else if (comp.id === 'wheels') {
+                targetPos = { x: 0, y: -10, z: 0 };
+            }
+
+            new TWEEN.Tween(controls.target)
+                .to(targetPos, 700)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .start();
+        }
+
+        function closeInfoCard() {
+            document.getElementById('info-card').style.display = 'none';
+        }
+
+        function takeScreenshot() {
+            const prevRotate = isAutoRotate;
+            isAutoRotate = false;
+            renderer.render(scene, camera);
+            const dataURL = renderer.domElement.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'AURA_v1_Precision_CAD_Render.png';
+            link.href = dataURL;
+            link.click();
+            isAutoRotate = prevRotate;
+        }
+
+        // --- 7. Animation Loop ---
+        document.getElementById('btn-rotate').classList.add('active');
+
+        function animate(time) {
+            requestAnimationFrame(animate);
+            TWEEN.update();
+
+            if (isAutoRotate) {
+                roverRoot.rotation.y += 0.005;
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# PlatformIO & IDE
+.pio/
+.vscode/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Local convenience scripts & temp configs
+*.bat
+camera_source.txt
+test_frame_*.jpg
+scad_test.png
+test_*.py
+
+# KiCad local cache & lock files
+*.kicad_prl
+*.lck
+*-bak
+.history/
+*-erc.rpt
+
+# Internal agent rules & blueprints
+GEMINI.md
+AURA_V1_MASTER_BLUEPRINT.md
+
+# Hack Club Fallen Journals (kept locally only, published directly to Fallen portal)
+JOURNAL*.md
+JOURNAL_*.md
