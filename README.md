@@ -14,6 +14,7 @@ The goal of Aura v1 is to build an intelligent, mobile companion robot on a cust
 - **Acoustically Isolated Audio** (45° rear-firing speaker + upward MEMS mic).
 - **Stationary Satellite Pod** (acts as a desk voice assistant for room control).
 - **4WD Skid-Steer Locomotion** - 4x 200 RPM BO geared motors driven by an L298N dual H-bridge motor driver. ✅
+- **Ultrasonic Emergency Braking** - Front HC-SR04 distance monitoring (<20cm) triggering automatic motor cut-off. ✅
 
 ---
 
@@ -92,7 +93,9 @@ The chassis plates are designed in OpenSCAD with dual-deck standoffs to hold the
 | 2 | Motor Driver | L298N Dual H-Bridge Module | 1 pc | 4WD Drive Power Stage |
 | 3 | BO Motors & Wheels | 3-9V Dual Shaft BO Motor + 65mm Wheels | 4 pcs | Chassis Locomotion |
 | 4 | Breadboard | MB-102 830 Points Solderless | 1 pc | Circuit Prototyping |
-| 5 | Jumper Wires | Dupont M-to-M / M-to-F Assorted | ~40 pcs | Signal & Power Wiring |
+| 4 | Ultrasonic Sensor | HC-SR04 Distance Sensor | 1 pc | Obstacle Avoidance |
+| 5 | Breadboard | MB-102 830 Points Solderless | 1 pc | Circuit Prototyping |
+| 6 | Jumper Wires | Dupont M-to-M / M-to-F Assorted | ~40 pcs | Signal & Power Wiring |
 
 ---
 
