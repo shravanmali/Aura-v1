@@ -1,16 +1,18 @@
-Item No.,Component Name,Purpose on Aura v1,Quantity,Price (INR),Vendor
-1,Raspberry Pi 3 Model B (1GB),Main AI Brain & Computer Vision,1,₹3850,MakerBazar.in
-2,160° Wide-Angle CSI Camera (OV5647),Person Tracking & Auto-Docking,1,₹749,Robu.in
-3,TowerPro MG90S Metal Gear Servos,2-Axis Pan-Tilt Camera Gimbal,2,₹252,Robu.in
-4,XL4015 5A DC-DC Buck Converter,5.1V Clean Power Rail for Pi 3B,1,₹109,Robu.in
-5,LM2596S 3A DC-DC Buck Converter,5.0V Rail for Servos & LEDs,1,₹69,Robu.in
-6,18650 2200mAh Li-ion Cells (3S2P),11.1V 4400mAh High-Torque Pack,6,₹936,Robu.in
-7,3S 20A Li-ion BMS Protection Board,Battery Safety & Balance Protection,1,₹149,Robu.in
-8,12.6V 2A CC/CV Smart Charger,Auto-Docking Station Power Supply,1,₹380,ElectronicsComp.com
-9,ESP32-C3 SuperMini Board,Stationary Bedroom Satellite Pod,1,₹279,Robu.in
-10,INMP441 I2S MEMS Microphone,Digital Voice AI Input for Pi,1,₹149,Robu.in
-11,SmartElex MAX98357A I2S Amplifier,3.2W Class-D Digital Audio Amp,1,₹194,Robu.in
-12,3W 4Ω Enclosed Cavity Speaker,Room Voice & Music Playback,1,₹80,MakerBazar.in
-13,WS2812 8-Bit Straight RGB LED Strip,Visual State Feedback Lightbar,1,₹49,Robu.in
-14,M3 Brass Standoffs Assorted Box,Dual-Deck Chassis Assembly,1,₹160,Robu.in
-TOTAL,,,,₹7405 (~$89.20 USD),
+Item No.,Component Name,Purpose on Aura v1,Quantity,Unit Price (INR),Total Price (INR),Total Price (USD),Vendor,Purchase Link
+1,Raspberry Pi 4 Model B (1GB),Main AI Brain & Computer Vision,1,₹4499,₹4499,$47.53,Robocraze.in,https://robocraze.com/products/raspberry-pi-4-model-b-1gb-ram?
+2,160° Wide-Angle CSI Camera (OV5647),Person Tracking & Auto-Docking,1,₹939,₹939,$9.92,Robu.in,https://robu.in/product/5mp-ov5647-sensor-adjustable-wide-angle-fish-eye-lens-night-vision-camera-for-raspberry-pi-3-b/
+3,TowerPro MG90S Metal Gear Servos,2-Axis Pan-Tilt Camera Gimbal,2,₹269,₹538,$5.68,Robu.in,https://robu.in/product/mg90s-9g-servo-metal-gear/
+4,XL4015 5A DC-DC Buck Converter,5.1V Clean Power Rail for Pi 4B,1,₹110,₹110,$1.16,Robocraze.in,https://robocraze.com/products/xl4015-dc-dc-step-down-adjustable-power-supply-module?
+5,LM2596S 3A DC-DC Buck Converter,5.0V Rail for Servos & LEDs,1,₹62,₹62,$0.66,Robocraze.in,https://robocraze.com/products/lm2596-dc-dc-buck-module?_pos=1&_sid=2840f34a7&_ss=r
+6,18650 2600mAh Li-ion Cells (3S2P),11.1V 5200mAh High-Torque Pack,6,₹149,₹894,$9.45,MakerBazar.in,https://makerbazar.in/products/youxi-18650-3-7v-lithium-ion-rechargeable-battery
+7,3S 20A Li-ion BMS Protection Board,Battery Safety & Balance Protection,1,₹49,₹49,$0.52,MakerBazar.in,https://makerbazar.in/products/12-6v-bms-3s-20a-18650-lithium-battery-management-board
+8,12.6V 2A CC/CV Smart Charger,Auto-Docking Station Power Supply,1,₹129,₹129,$1.36,MakerBazar.in,https://makerbazar.in/products/hi-light-led-power-dc-supply-adapter?variant=50055364641008
+9,ESP32-C3 SuperMini Board,Stationary Bedroom Satellite Pod,1,₹254,₹254,$2.68,Robocraze.in,https://robocraze.com/products/esp32-c3-super-mini-development-board-unsoldered?_pos=1&_sid=9ec2b87a6&_ss=r
+10,INMP441 I2S MEMS Microphone,Digital Voice AI Input for Pi,1,₹115,₹115,$1.22,Robocraze.in,https://robocraze.com/products/inmp441-mems-high-precision-omnidirectional-microphone-module-i2s?_pos=1&_sid=458c8a8af&_ss=r
+11,SmartElex MAX98357A I2S Amplifier,3.2W Class-D Digital Audio Amp,1,₹195,₹195,$2.06,Robocraze.in,https://robocraze.com/products/smartelex-max98357a-i2s-audio-breakout-amplifier-for-raspberry-pi-and-microcontrollers?_pos=1&_sid=b59fb6ae3&_ss=r
+12,3inch 4ohm 10Watt Speaker,Room Voice & Music Playback,1,₹84,₹84,$0.89,MakerBazar.in,https://makerbazar.in/products/senior-sound-subwoofer-multimedia-speaker?variant=48251030667504
+13,WS2812 16 Bit RGB LED (round),Visual State Feedback Lightbar,1,₹78,₹78,$0.82,Robocraze.in,https://robocraze.com/products/ws2812-16-bit-rgb-led-round?_pos=2&_sid=0c2f16493&_ss=r
+14,SanDisk Ultra 64GB MicroSD Card (A1 Class 10),Raspberry Pi OS & AI Model Storage,1,₹1299,₹1299,$13.72,Amazon.in,https://www.amazon.in/SANDISK-microSD-Android-Smartphones-Warranty/dp/B0GWW13HC3/ref=asc_df_B0GWW13HC3?mcid=d62ea5bb25203a9eb98d8871af36d416&tag=googleshopdes-21&linkCode=df0&hvadid=709962856223&hvpos=&hvnetw=g&hvrand=9504902500404510328&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9300465&hvtargid=pla-2491833744878&psc=1&hvocijid=9504902500404510328-B0GWW13HC3-&hvexpln=0&gad_source=1
+15,HC-SR04 Ultrasonic Distance Sensor Module,Front Obstacle Collision Shield,1,₹75,₹75,$0.79,Robocraze.in,https://robocraze.com/products/hc-sr-04-ultrasonic-sensor?_pos=14&_sid=02ac8cbf6&_ss=r
+16,40-Pin Dupont Jumper Wires Kit (M-F / F-F),Interconnect Wiring & Prototyping,1,₹110,₹110,$1.16,MakerBazar.in,https://makerbazar.in/products/jumper-cable-male-female?
+TOTAL,Complete System BOM (Aura Rover + Satellite Pod),Full Hardware Grant Request,16 Items,-,₹9430,$99.63,All Vendors Combined,-
