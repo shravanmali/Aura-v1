@@ -82,6 +82,13 @@ class RobotSerial:
         self.connected = False
         self.last_command = 'S'
         self.last_send_time = 0
+
+        # Sensor readings received from ESP32
+        self.temp = 0.0
+        self.hum = 0.0
+        self.pir = 0
+        self.pir_alert_time = 0
+        self.last_rx_time = 0
         self.lock = threading.Lock()
 
         self._connect()
@@ -91,8 +98,37 @@ class RobotSerial:
             self.ser = serial.Serial(self.port, self.baud, timeout=0.05)
             self.connected = True
             print(f"[SERIAL] Connected to ESP32 on {self.port} at {self.baud} baud")
+            self.thread = threading.Thread(target=self._read_serial, daemon=True)
+            self.thread.start()
         except Exception as e:
             print(f"[SERIAL WARNING] Could not open {self.port} ({e}). Running in view-only mode.")
+
+    def _read_serial(self):
+        while self.connected and self.ser:
+            try:
+                if self.ser.in_waiting > 0:
+                    line = self.ser.readline().decode('utf-8', errors='ignore').strip()
+                    if line:
+                        with self.lock:
+                            self.last_rx_time = time.time()
+                            # Parse telemetry packet: [TELEM] T:28.4|H:65.0|PIR:0|DIST:-1.0|MOT:STOPPED
+                            if "[TELEM]" in line:
+                                data_text = line.split("[TELEM]")[1].strip()
+                                for item in data_text.split("|"):
+                                    if ":" in item:
+                                        key, val = item.split(":", 1)
+                                        if key == "T":
+                                            self.temp = float(val)
+                                        elif key == "H":
+                                            self.hum = float(val)
+                                        elif key == "PIR":
+                                            val_int = int(val)
+                                            if val_int == 1:
+                                                self.pir_alert_time = time.time()
+                                            self.pir = val_int
+            except Exception:
+                break
+            time.sleep(0.01)
 
     def send(self, cmd):
         # Limit command rate to 20 times per second so serial buffer doesn't overflow
@@ -108,6 +144,17 @@ class RobotSerial:
                 self.ser.write(cmd.encode('ascii'))
             except Exception:
                 self.connected = False
+
+    def get_sensors(self):
+        with self.lock:
+            is_active = (time.time() - self.last_rx_time < 2.0) and self.connected
+            is_motion = (self.pir == 1 or (time.time() - self.pir_alert_time < 2.5))
+            return {
+                "connected": is_active,
+                "temp": self.temp,
+                "hum": self.hum,
+                "motion": is_motion
+            }
 
 
 # Draw small 4WD rover widget in the corner
@@ -157,6 +204,7 @@ def main():
     cv2.namedWindow(win_name, cv2.WINDOW_AUTOSIZE)
 
     # Steering thresholds (640 width frame)
+    # Target center < 240 -> Pivot Left, Target center > 400 -> Pivot Right
     LEFT_ZONE = 240
     RIGHT_ZONE = 400
 
@@ -239,6 +287,7 @@ def main():
                             cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 120), 2)
 
             else:
+                # If target lost for more than 0.4 seconds, stop motors
                 if has_target and (now - last_target_seen < 0.4):
                     pass
                 else:
@@ -259,11 +308,29 @@ def main():
                     (0, 220, 255) if current_cmd == 'R' else (150, 150, 150), 1)
 
         # Top status bar
+        sensors = robot.get_sensors()
         cv2.rectangle(frame, (0, 0), (640, 28), (20, 20, 20), -1)
-        conn_text = "ESP32: CONNECTED (COM6)" if robot.connected else "ESP32: NOT CONNECTED"
-        conn_color = (0, 255, 0) if robot.connected else (0, 0, 255)
+        conn_text = "ESP32: CONNECTED (COM6)" if sensors["connected"] else "ESP32: NOT CONNECTED"
+        conn_color = (0, 255, 0) if sensors["connected"] else (0, 0, 255)
         cv2.putText(frame, "AURA v1 - AUTONOMOUS COMPANION", (15, 19), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
         cv2.putText(frame, conn_text, (380, 19), cv2.FONT_HERSHEY_SIMPLEX, 0.45, conn_color, 1)
+
+        # Temperature & Humidity card
+        cv2.rectangle(frame, (10, 50), (260, 95), (25, 25, 25), -1)
+        cv2.rectangle(frame, (10, 50), (260, 95), (0, 200, 255), 1)
+        cv2.putText(frame, f"TEMP: {sensors['temp']:.1f} C   HUM: {sensors['hum']:.1f} %",
+                    (18, 72), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 240, 255), 1)
+        cv2.putText(frame, "OBSTACLE: NOT CONNECTED", (18, 88), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (140, 140, 140), 1)
+
+        # PIR motion sentry badge
+        if sensors["motion"]:
+            cv2.rectangle(frame, (10, 105), (260, 138), (0, 0, 180), -1)
+            cv2.rectangle(frame, (10, 105), (260, 138), (0, 0, 255), 2)
+            cv2.putText(frame, "SENTRY: MOTION DETECTED!", (18, 127), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 255), 2)
+        else:
+            cv2.rectangle(frame, (10, 105), (260, 138), (20, 50, 20), -1)
+            cv2.rectangle(frame, (10, 105), (260, 138), (0, 255, 0), 1)
+            cv2.putText(frame, "SENTRY: IDLE / SECURE", (18, 127), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 255, 120), 1)
 
         # Bottom motor status bar
         cv2.rectangle(frame, (10, 390), (630, 470), (25, 25, 25), -1)
