@@ -140,9 +140,10 @@ The full 16-item audited component list for the Hack Club Fallen hardware grant 
 | **14** | SanDisk Ultra 64GB MicroSD Card | Raspberry Pi OS & AI Model Storage | 1 | ₹1,299 | ₹1,299 | \$13.72 | Amazon.in |
 | **15** | HC-SR04 Ultrasonic Distance Sensor | Front Obstacle Collision Shield | 1 | ₹75 | ₹75 | \$0.79 | Robocraze.in |
 | **16** | 40-Pin Dupont Jumper Wires Kit | Interconnect Wiring & Prototyping | 1 | ₹110 | ₹110 | \$1.16 | MakerBazar.in |
-| **TOTAL** | **Complete System Grant Request** | **Aura Rover + Satellite Pod** | **16 Items** | **—** | **₹9,430** | **\$99.63** | **All Vendors** |
+| **17** | 3x 18650 Battery Holder with Wire Leads | 3S2P Battery Pack Assembly (2x 3S in Parallel) | 2 | ₹49 | ₹98 | \$1.04 | Robu.in |
+| **TOTAL** | **Complete System Grant Request** | **Aura Rover + Satellite Pod** | **17 Items** | **—** | **₹9,528** | **\$100.67** | **All Vendors** |
 
-*Estimated at market rate of ₹94.65 INR per USD. Total grant request is **\$99.63 USD**, well within the \$250 Hack Club Fallen grant limit.*
+*Estimated at market rate of ₹94.65 INR per USD. Total grant request is **\$100.67 USD** *
 
 ---
 
