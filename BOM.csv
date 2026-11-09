@@ -1,5 +1,5 @@
 Item No.,Component Name,Purpose on Aura v1,Quantity,Unit Price (INR),Total Price (INR),Total Price (USD),Vendor,Purchase Link
-1,Raspberry Pi 4 Model B (1GB),Main AI Brain & Computer Vision,1,₹4499,₹4499,$47.53,Robocraze.in,https://robocraze.com/products/raspberry-pi-4-model-b-1gb-ram?
+1,Raspberry Pi 4 Model B (1GB),Main AI Brain & Computer Vision,1,₹4499,₹4499,$47.53,Robocraze.in,[robocraze.com](https://robocraze.com/products/raspberry-pi-4-model-b-1gb-ram?)
 2,160° Wide-Angle CSI Camera (OV5647),Person Tracking & Auto-Docking,1,₹939,₹939,$9.92,Robu.in,https://robu.in/product/5mp-ov5647-sensor-adjustable-wide-angle-fish-eye-lens-night-vision-camera-for-raspberry-pi-3-b/
 3,TowerPro MG90S Metal Gear Servos,2-Axis Pan-Tilt Camera Gimbal,2,₹269,₹538,$5.68,Robu.in,https://robu.in/product/mg90s-9g-servo-metal-gear/
 4,XL4015 5A DC-DC Buck Converter,5.1V Clean Power Rail for Pi 4B,1,₹110,₹110,$1.16,Robocraze.in,https://robocraze.com/products/xl4015-dc-dc-step-down-adjustable-power-supply-module?
@@ -16,4 +16,4 @@ Item No.,Component Name,Purpose on Aura v1,Quantity,Unit Price (INR),Total Price
 15,HC-SR04 Ultrasonic Distance Sensor Module,Front Obstacle Collision Shield,1,₹75,₹75,$0.79,Robocraze.in,https://robocraze.com/products/hc-sr-04-ultrasonic-sensor?_pos=14&_sid=02ac8cbf6&_ss=r
 16,40-Pin Dupont Jumper Wires Kit (M-F / F-F),Interconnect Wiring & Prototyping,1,₹110,₹110,$1.16,MakerBazar.in,https://makerbazar.in/products/jumper-cable-male-female?
 17,3x 18650 Battery Holder with Wire Leads,3S2P Battery Pack Assembly (2x 3S in Parallel),2,₹49,₹98,$1.04,Robu.in,https://robu.in/product/plastic-box-battery-cell-holder-for-4-x-aa-battery-with-on-off-switch/
-TOTAL,Complete System BOM (Aura Rover + Satellite Pod),Full Hardware Grant Request,17 Items,-,₹9528,$100.67,All Vendors Combined,-
+TOTAL,Complete System BOM (Aura Rover + Satellite Pod),Full Hardware Grant Request,17 Items,-,₹9528,$100.67,All Vendors Combined,-[This is the BOM which will be sended to the Fallen hack club reviewers as this components are which not plysically worked on]
