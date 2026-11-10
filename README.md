@@ -1,171 +1,139 @@
-# Aura v1: Autonomous Mobile Companion Robot
+# Aura v1: Autonomous Companion Rover & Bedroom Satellite Pod
 
-Hi, I'm Shravan. **Aura v1** is an open-source autonomous companion robot (rover) I am building from scratch for [Hack Club Fallen](https://fallen.hackclub.com/projects/prj_kV1Fde). 
+> *A comprehensive overview of the Aura v1 system architecture, bench-tested hardware, and software implementation in a single document.*
 
-The goal of Aura v1 is to build an intelligent, mobile companion robot on a custom chassis that can follow me around my room, monitor ambient climate, act as a motion sentry, and connect to a stationary bedroom satellite pod for whole-home voice control.
+Hi! I'm Shravan Mali, an 18-year-old student and maker from India. This is **Aura v1**, an autonomous companion robot and bedroom satellite pod I am building from scratch for [Hack Club Fallen](https://fallen.hackclub.com/projects/prj_kV1Fde).
 
----
-
-## 🎥 Video Proof & Bench Demos
-
-Here are the real test bench videos recorded on my desk showing each milestone:
-
-1. **Live Vision Tracking & Sensor Telemetry HUD:** [Watch on YouTube Shorts](https://youtube.com/shorts/xNkBhOSDpR0)  
-   *(Robot tracks human movement by pivoting BO motors while live temperature, humidity, and PIR sentry data stream to the HUD).*
-2. **DHT11 & PIR Motion Sensor Bench Test:** [Watch on YouTube Shorts](https://youtube.com/shorts/FN-GSGQxdE8)  
-   *(Testing both sensors in isolation on the ESP32-S3 before connecting the motor driver).*
-3. **BO Motor Disassembly & Brush Repair:** [Watch on YouTube Shorts](https://youtube.com/shorts/L6oRBpswQRg)  
-   *(Disassembled the stalling motor to clean internal brush contacts and commutator shaft).*
-4. **Initial Human Centroid Tracking Loop:** [Watch on YouTube](https://youtu.be/JqQfvNIkbz4)  
-   *(Verifying OpenCV face centroid offset calculations over serial).*
+The idea behind Aura is to build a helpful robot for my room. It has two main parts:
+1. **The Rover:** A 4WD mobile robot that tracks and follows me around the room using a camera, checks temperature and humidity, acts as a night motion sentry, and can count workout reps or play music on command.
+2. **The Bedroom Satellite Pod:** A small stationary device plugged into the wall in my room. It connects to the rover over local Wi-Fi, listens for voice commands, controls my room's AC with an infrared transmitter, and lets me summon the rover to my room just by saying *"Aura, come here"*.
 
 ---
 
-## 🛠️ Features (✅ = Built & Working on Bench)
+## Videos that shows physically working project.
 
-- **Computer Vision Person Tracking** (MediaPipe/OpenCV with real-time serial steering). ✅
-- **Dual-Chip Architecture** (Linux brain + zero-latency real-time microcontroller).
-- **3S2P Battery Pack** (11.1V 4400mAh with BMS safety).
-- **Acoustically Isolated Audio** (45° rear-firing speaker + upward MEMS mic).
-- **Stationary Satellite Pod** (acts as a desk voice assistant for room control). ✅
-- **DHT11 Environmental Telemetry** - Real-time indoor temperature and humidity logging streamed over serial to the companion dashboard. ✅
-- **PIR Sentry Detection** - Low-power PIR motion sensing on GPIO 14 triggering immediate sentry alert badges. ✅
-- **Custom KiCad Carrier PCB v1.1** - Dedicated motherboard with ESP32-S3 sockets and keyed sensor headers passing ERC with 0 errors. ✅
-- **4WD Skid-Steer Locomotion** - 4x 200 RPM BO geared motors driven by an L298N dual H-bridge motor driver. ✅
-- **Ultrasonic Emergency Braking** - Front distance monitoring for obstacle avoidance (currently bypassed while replacement sensor is in transit).
+I test and verify everything on my physical desk before moving to the next step. Here are three videos of the project working right on my desk:
+
+1. **Live Vision Tracking & HUD:** [Watch on YouTube Shorts](https://youtube.com/shorts/xNkBhOSDpR0)  
+   *(The rover tracks me by turning its BO motors left and right while streaming real-time temperature, humidity, and PIR motion data to my laptop screen).*
+2. **DHT11 & PIR Motion Sensor Test:** [Watch on YouTube Shorts](https://youtube.com/shorts/FN-GSGQxdE8)  
+   *(Bench testing room climate readings and motion detection on the ESP32-S3 before connecting the motor driver).*
+3. **Face Centroid Tracking Loop:** [Watch on YouTube](https://youtu.be/JqQfvNIkbz4)  
+   *(Testing real-time pixel offset calculations to steer the motors smoothly over serial).*
 
 ---
 
-## 📐 3D CAD Chassis Design
+## What I've Built & Verified on My Desk
 
-The chassis plates are designed in OpenSCAD with dual-deck standoffs to hold the electronics securely:
-
-![Aura v1 Assembly](scad_assembly_render.png)
-
-![Aura v1 Rear View](scad_rear_view.png)
+- **4WD Skid-Steer Motors:** 4x 200 RPM BO geared motors running on an L298N motor driver with ESP32 PWM soft-start so the motors don't jerk.
+- **Real-Time Vision Following:** An OpenCV Python script (`vision_tracker.py`) that tracks human movement from a phone/webcam stream and steers the motors over USB serial at 115,200 baud.
+- **Room Telemetry & Sentry:** A DHT11 sensor logging temperature and humidity every 2 seconds, plus a PIR motion sensor that triggers an alert badge if someone walks into the room.
+- **Bedroom Satellite Pod PCB (v1.0):** A custom 2-layer PCB designed in KiCad. It houses the ESP32-C3 SuperMini, INMP441 mic, MAX98357A 3W amplifier, a 470µF bulk capacitor (to stop the speaker from rebooting the ESP32), an IR blaster, and an RGB LED ring. It passed KiCad DRC with **0 errors and 0 unconnected items**, and the fabrication Gerbers are ready.
+- **Rover Carrier Board v1.5 Schematic:** The rover's motherboard schematic, verified with **0 ERC errors**. It separates high-current servo power from sensitive logic, adds I2S audio headers, and includes a 100kΩ/33kΩ resistor divider to monitor the 11.1V battery.
+- **3D Chassis:** A dual-deck chassis designed in OpenSCAD to hold the motors, battery pack, electronics, and camera pan-tilt bracket.
 
 ---
 
-## 🔌 System Architecture
+## Features Coming Next (In Progress)
+
+- **Exercise Rep Counter:** Using MediaPipe pose tracking on the camera to count push-ups or squats and check workout form.
+- **Voice Music Playback:** Playing songs and voice responses through the I2S amplifier and 3W speaker via voice commands.
+- **Auto-Docking:** Using the camera to detect an ArUco marker on a charging dock so the rover can drive itself to charge when the battery drops below 15% (`ADC <= 2940`).
+- **Smart AC Control:** Blasting 940nm IR remote codes to turn the room AC on or off based on live temperature readings from the DHT11 sensor.
+
+---
+
+## How the System Works
 
 ```text
-┌──────────────────────────────────────────────┐
-│           Smartphone (DroidCam Stream)       │
-│           (Live Video at 640x480 @ 30 FPS)   │
-└──────────────────────┬───────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────┐
-│       Python OpenCV Companion Dashboard      │
-│     (Face Tracking, Centroid Math, HUD)      │
-└──────────────────────┬───────────────────────┘
-                       │
-                       ▼ USB Serial (115200 Baud)
-┌──────────────────────────────────────────────┐
-│              ESP32-S3 DevKit-C               │
-│    (Motor Kinematics, Watchdog, Telemetry)   │
-└──────────┬───────────────────────┬───────────┘
-           │                       │
-           ▼                       ▼
-┌──────────────────────┐ ┌──────────────────────┐
-│  L298N Motor Driver  │ │ Sensors (DHT11, PIR) │
-│  (4WD Skid-Steer)    │ │ (GPIO 4 & GPIO 14)   │
-└──────────────────────┘ └──────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│             AURA V1 AUTONOMOUS MOBILE ROVER                 │
+│                                                             │
+│   [ Raspberry Pi 4 Model B (1GB RAM) ]                      │
+│   • High-Level Brain, OpenCV Computer Vision, Voice AI      │
+│   • MediaPipe Pose Tracking (Exercise Rep Counter)          │
+│   • ArUco Marker Autonomous Docking Navigation              │
+│                              ▲                              │
+│                              │ High-Speed UART / Serial     │
+│                              ▼                              │
+│   [ ESP32-S3 DevKit-C (N16R8) ]                             │
+│   • Instant Real-Time Motor Kinematics (4WD PWM)            │
+│   • 2-Axis Pan-Tilt Gimbal Servos (MG90S)                   │
+│   • HC-SR04 Ultrasonic Emergency Braking (<1ms stop)        │
+│   • 11.1V Battery Fuel Gauge ADC Monitor (Auto-dock <= 15%) │
+└──────────────────────────────┬──────────────────────────────┘
+                               ▲
+                               │ Local Wi-Fi Mesh
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│             AURA BEDROOM SATELLITE POD                      │
+│                                                             │
+│   [ Stationary ESP32-C3 SuperMini Node (5V USB-C Powered) ] │
+│   • 24/7 Room Listening Station (INMP441 + MAX98357A)       │
+│   • Voice-Command Music & Media Playback (3W Speaker)       │
+│   • Dedicated Room ID ("Aura, come here" summoning)         │
+│   • 940nm IR Blaster + DHT11 Closed-Loop Room AC Control    │
+│   • 470µF Bulk Capacitor (Prevents speaker inrush brownouts)│
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## ⚡ Power Wiring Layout
+## Custom KiCad Hardware & PCBs
 
-```text
-            ┌──────────────────────────────────────────┐
-            │       3S 11.1V Li-ion Battery Pack       │
-            └────────────────────┬─────────────────────┘
-                                 │
-                                 ▼
-            ┌──────────────────────────────────────────┐
-            │               3S 20A BMS                 │
-            └────────────┬─────────────────┬───────────┘
-                         │                 │
-            (11.1V Line) │                 │ (11.1V Line)
-                         ▼                 ▼
-            ┌────────────────────┐ ┌────────────────────┐
-            │    L298N Driver    │ │    XL4015 BUCK     │
-            │    (Motor Power)   │ │    (Regulated 5V)  │
-            └────────────┬───────┘ └─────────┬──────────┘
-                         │                   │
-                         ▼                   ▼
-            ┌────────────────────┐ ┌────────────────────┐
-            │   4x BO Motors     │ │    ESP32-S3 &      │
-            │   (Chassis Drive)  │ │    Sensor Rails    │
-            └────────────────────┘ └────────────────────┘
-```
+All PCB design files, schematics, and manufacturing Gerbers are open-source in the [`hardware/`](hardware/) directory:
+
+### 1. Bedroom Satellite Pod v1.0 (Fabrication-Ready PCB)
+* **Directory:** [`hardware/Aura_Satellite_Pod/`](hardware/Aura_Satellite_Pod/)
+* **Features:** 2-layer board, dual copper ground planes, 15.24mm DIP socket spacing for ESP32-C3 SuperMini, anti-brownout audio filtering, and 4 corner M3 mounting holes.
+* **Status:** **0 DRC Errors, 0 Unconnected Nets**.
+* **Files:** [Schematic PDF](hardware/Aura_Satellite_Pod/Aura_Satellite_Pod_Schematic.pdf) | [Manufacturing Gerbers Zip](hardware/Aura_Satellite_Pod/Gerbers_Aura_Satellite_Pod_v1.0.zip) | [3D Front Render](hardware/Aura_Satellite_Pod/3d_pcb_front.png) | [3D Back Render](hardware/Aura_Satellite_Pod/3d_pcb_back.png)
+
+### 2. Rover Carrier Motherboard v1.5 (Schematic Complete)
+* **Directory:** [`hardware/Aura_v1.5_Carrier/`](hardware/Aura_v1.5_Carrier/)
+* **Features:** Dual isolated buck power rails (`+5V` logic, `+5V_SERVO`), I2S audio inputs/outputs, L298N motor headers, and battery fuel gauge ($100\text{k}\Omega / 33\text{k}\Omega$).
+* **Status:** **0 ERC Errors**.
+* **Files:** [Schematic PDF](hardware/Aura_v1.5_Carrier/Aura_v1.5_Carrier_Schematic.pdf)
 
 ---
 
-## 📦 Hardware Components Used on Bench So Far
+## Bill of Materials 
 
-| Item | Component | Specification / Model | Qty | Primary Role |
-| :---: | :--- | :--- | :---: | :--- |
-| 1 | ESP32-S3 | WROOM-1 N16R8 (16MB Flash, 8MB RAM) | 1 pc | Core MCU & Serial Bridge |
-| 2 | Motor Driver | L298N Dual H-Bridge Module | 1 pc | 4WD Drive Power Stage |
-| 3 | BO Motors & Wheels | 3-9V Dual Shaft BO Motor + 65mm Wheels | 4 pcs | Chassis Locomotion |
-| 4 | Ultrasonic Sensor | HC-SR04 Distance Sensor | 1 pc | Obstacle Avoidance |
-| 5 | Climate Sensor | DHT11 Temperature & Humidity | 1 pc | Environmental Readings |
-| 6 | PIR Motion Sensor | HC-SR501 Passive Infrared Sensor | 1 pc | Sentry Motion Detection |
-| 7 | Breadboard | MB-102 830 Points Solderless | 1 pc | Circuit Prototyping |
-| 8 | Jumper Wires | Dupont M-to-M / M-to-F Assorted | ~40 pcs | Signal & Power Wiring |
+I keep two separate BOM files to be 100% transparent about what I already have on my desk and what I need funding for from Hack Club:
+
+1. **[BOM.md](BOM.md) (Hack Club Fallen Grant Request):**  
+   The exact 17 audited items requested through the Hack Club Fallen virtual card totaling **₹9,528 (~$100.67 USD)**, with clickable vendor purchase links for reviewers.
+2. **[Aura_Master_BOM.md](Aura_Master_BOM.md) (Complete 0-to-100 Hardware Inventory):**  
+   The complete system build (32 subsystems totaling ₹11,848), clearly separating:
+   * **Owned by me (I have on my desk):** ₹2,320 (15 subsystems: ESP32-S3, BO motors, wheels, L298N, chassis, sensors, passives).
+   * **Requested from Hack Club Fallen:** ₹9,528 (17 subsystems: Pi 4, CSI camera, MG90S servos, Li-ion 18650 pack, BMS, charger, satellite components).
 
 ---
 
-## 📋 Bill of Materials (Hack Club Fallen Grant)
+## 3D Chassis Design
 
-The full 16-item audited component list for the Hack Club Fallen hardware grant is saved in [`BOM.csv`](BOM.csv):
+The chassis is designed in OpenSCAD with dual-deck standoffs to hold the battery pack, motor drivers, and boards securely:
 
-| Item | Component | Purpose on Aura v1 | Qty | Unit Price (INR) | Total (INR) | Total (USD) | Vendor |
-| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **1** | Raspberry Pi 4 Model B (1GB) | Main AI Brain & Computer Vision | 1 | ₹4,499 | ₹4,499 | \$47.53 | Robocraze.in |
-| **2** | 160° Wide-Angle CSI Camera (OV5647) | Person Tracking & Auto-Docking | 1 | ₹939 | ₹939 | \$9.92 | Robu.in |
-| **3** | TowerPro MG90S Metal Gear Servos | 2-Axis Pan-Tilt Camera Gimbal | 2 | ₹269 | ₹538 | \$5.68 | Robu.in |
-| **4** | XL4015 5A DC-DC Buck Converter | 5.1V Clean Power Rail for Pi 4B | 1 | ₹110 | ₹110 | \$1.16 | Robocraze.in |
-| **5** | LM2596S 3A DC-DC Buck Converter | 5.0V Rail for Servos & LEDs | 1 | ₹62 | ₹62 | \$0.66 | Robocraze.in |
-| **6** | 18650 2600mAh Li-ion Cells (3S2P) | 11.1V 5200mAh High-Torque Pack | 6 | ₹149 | ₹894 | \$9.45 | MakerBazar.in |
-| **7** | 3S 20A Li-ion BMS Protection Board | Battery Safety & Balance Protection | 1 | ₹49 | ₹49 | \$0.52 | MakerBazar.in |
-| **8** | 12.6V 2A CC/CV Smart Charger | Auto-Docking Station Power Supply | 1 | ₹129 | ₹129 | \$1.36 | MakerBazar.in |
-| **9** | ESP32-C3 SuperMini Board | Stationary Bedroom Satellite Pod | 1 | ₹254 | ₹254 | \$2.68 | Robocraze.in |
-| **10** | INMP441 I2S MEMS Microphone | Digital Voice AI Input for Pi | 1 | ₹115 | ₹115 | \$1.22 | Robocraze.in |
-| **11** | SmartElex MAX98357A I2S Amplifier | 3.2W Class-D Digital Audio Amp | 1 | ₹195 | ₹195 | \$2.06 | Robocraze.in |
-| **12** | 3inch 4ohm 10Watt Speaker | Room Voice & Music Playback | 1 | ₹84 | ₹84 | \$0.89 | MakerBazar.in |
-| **13** | WS2812 16 Bit RGB LED (round) | Visual State Feedback Lightbar | 1 | ₹78 | ₹78 | \$0.82 | Robocraze.in |
-| **14** | SanDisk Ultra 64GB MicroSD Card | Raspberry Pi OS & AI Model Storage | 1 | ₹1,299 | ₹1,299 | \$13.72 | Amazon.in |
-| **15** | HC-SR04 Ultrasonic Distance Sensor | Front Obstacle Collision Shield | 1 | ₹75 | ₹75 | \$0.79 | Robocraze.in |
-| **16** | 40-Pin Dupont Jumper Wires Kit | Interconnect Wiring & Prototyping | 1 | ₹110 | ₹110 | \$1.16 | MakerBazar.in |
-| **17** | 3x 18650 Battery Holder with Wire Leads | 3S2P Battery Pack Assembly (2x 3S in Parallel) | 2 | ₹49 | ₹98 | \$1.04 | Robu.in |
-| **TOTAL** | **Complete System Grant Request** | **Aura Rover + Satellite Pod** | **17 Items** | **—** | **₹9,528** | **\$100.67** | **All Vendors** |
+![Aura v1 Assembly](cad/scad_assembly_render.png)
 
-*Estimated at market rate of ₹94.65 INR per USD. Total grant request is **\$100.67 USD** *
+![Aura v1 Rear View](cad/scad_rear_view.png)
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 ### 1. Upload Microcontroller Firmware
 Open this repository in VS Code with PlatformIO:
 ```powershell
 pio run --target upload --upload-port COM6
 ```
-*(Or open `src/main.cpp` in Arduino IDE, select ESP32-S3, and upload).*
+*(Or open `src/main.cpp` in Arduino IDE, select ESP32-S3 Dev Module, and upload).*
 
-### 2. Start the Vision Companion Dashboard
-1. Open DroidCam on your phone and note the Wi-Fi IP (default is `http://192.168.31.75:4747/video`).
-2. Run the tracker on your computer:
+### 2. Start the Computer Vision Dashboard
+1. Open DroidCam on your phone (or plug in a USB webcam).
+2. Run the tracking script on your computer:
 ```powershell
 python vision_tracker.py
 ```
-*(Or double-click `run_vision_simulator.bat`).*
-
-Controls:
-- Stand in front of the camera and step left or right — the motors will steer to keep you centered.
-- Press **W / A / S / D** on your keyboard to manually drive the motors.
-- Press **Spacebar** to stop.
-- Press **Q** to exit cleanly.
+* **Keyboard Driving:** Press **W / A / S / D** to drive manually, **Spacebar** to brake, **Q** to quit.
+* **Auto-Follow:** Stand in front of the camera; the BO motors will automatically steer left/right to keep you centered.
