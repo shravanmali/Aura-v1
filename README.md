@@ -1,124 +1,87 @@
-# Aura v1: Autonomous Companion Rover & Bedroom Satellite Pod
+# Aura v1 - Companion Rover & Bedroom Satellite Pod
 
-> *A comprehensive overview of the Aura v1 system architecture, bench-tested hardware, and software implementation in a single document.*
-
-Hi! I'm Shravan Mali, an 18-year-old student and maker from India. This is **Aura v1**, an autonomous companion robot and bedroom satellite pod I am building from scratch for [Hack Club Fallen](https://fallen.hackclub.com/projects/prj_kV1Fde).
+Hi! I'm Shravan Mali, an 18-year-old student and maker from India. This is Aura v1, an autonomous companion robot and bedroom satellite pod I am building from scratch for [Hack Club Fallen](https://fallen.hackclub.com/projects/prj_kV1Fde).
 
 The idea behind Aura is to build a helpful robot for my room. It has two main parts:
-1. **The Rover:** A 4WD mobile robot that tracks and follows me around the room using a camera, checks temperature and humidity, acts as a night motion sentry, and can count workout reps or play music on command.
-2. **The Bedroom Satellite Pod:** A small stationary device plugged into the wall in my room. It connects to the rover over local Wi-Fi, listens for voice commands, controls my room's AC with an infrared transmitter, and lets me summon the rover to my room just by saying *"Aura, come here"*.
+1. The Rover: A 4WD mobile robot that tracks and follows me around the room using a camera, checks temperature and humidity, acts as a night motion sentry, and can count workout reps or play music on command.
+2. The Bedroom Satellite Pod: A small stationary device plugged into the wall in my room. It connects to the rover over local Wi-Fi, listens for voice commands, controls my room's AC with an infrared transmitter, and lets me summon the rover to my room just by saying "Aura, come here".
 
----
+## Physically Working Videos
 
-## Videos that shows physically working project.
+I test and verify everything on my desk before moving to the next step:
 
-I test and verify everything on my physical desk before moving to the next step. Here are three videos of the project working right on my desk:
+1. Live Vision Tracking & HUD: [Watch on YouTube Shorts](https://youtube.com/shorts/xNkBhOSDpR0) (rover turns its BO motors left and right while streaming real-time temperature, humidity, and PIR motion data to my laptop screen).
+2. DHT11 & PIR Motion Sensor Test: [Watch on YouTube Shorts](https://youtube.com/shorts/FN-GSGQxdE8) (bench testing room climate readings and motion detection on the ESP32-S3 before connecting the motor driver).
+3. Face Centroid Tracking Loop: [Watch on YouTube](https://youtu.be/JqQfvNIkbz4) (testing real-time pixel offset calculations to steer the motors smoothly over serial).
 
-1. **Live Vision Tracking & HUD:** [Watch on YouTube Shorts](https://youtube.com/shorts/xNkBhOSDpR0)  
-   *(The rover tracks me by turning its BO motors left and right while streaming real-time temperature, humidity, and PIR motion data to my laptop screen).*
-2. **DHT11 & PIR Motion Sensor Test:** [Watch on YouTube Shorts](https://youtube.com/shorts/FN-GSGQxdE8)  
-   *(Bench testing room climate readings and motion detection on the ESP32-S3 before connecting the motor driver).*
-3. **Face Centroid Tracking Loop:** [Watch on YouTube](https://youtu.be/JqQfvNIkbz4)  
-   *(Testing real-time pixel offset calculations to steer the motors smoothly over serial).*
+## What I've Built on My Desk
 
----
+- 4WD skid-steer chassis running 4 BO geared motors through an L298N driver with ESP32 PWM soft-start.
+- Real-time vision following using OpenCV (`vision_tracker.py`) to detect faces from a phone stream and send steering commands over USB serial at 115200 baud.
+- Room telemetry logging temperature and humidity with a DHT11 and motion alerts with a PIR sensor.
+- Bedroom Satellite Pod PCB (v1.0) designed in KiCad for an ESP32-C3 SuperMini, INMP441 microphone, MAX98357A 3W amplifier, 470µF bulk capacitor, IR blaster, and LED ring. The board passed DRC with 0 errors and 0 unconnected nets, and gerbers are generated.
+- Rover Carrier Motherboard PCB designed in KiCad with isolated power rails for servos and Pi, reverse-polarity protection, and battery monitoring divider.
+- Dual-deck chassis modeled in OpenSCAD to hold the acrylic plates, motors, battery pack, and camera gimbal.
 
-## What I've Built & Verified on My Desk
+## Features Coming Next
 
-- **4WD Skid-Steer Motors:** 4x 200 RPM BO geared motors running on an L298N motor driver with ESP32 PWM soft-start so the motors don't jerk.
-- **Real-Time Vision Following:** An OpenCV Python script (`vision_tracker.py`) that tracks human movement from a phone/webcam stream and steers the motors over USB serial at 115,200 baud.
-- **Room Telemetry & Sentry:** A DHT11 sensor logging temperature and humidity every 2 seconds, plus a PIR motion sensor that triggers an alert badge if someone walks into the room.
-- **Bedroom Satellite Pod PCB (v1.0):** A custom 2-layer PCB designed in KiCad. It houses the ESP32-C3 SuperMini, INMP441 mic, MAX98357A 3W amplifier, a 470µF bulk capacitor (to stop the speaker from rebooting the ESP32), an IR blaster, and an RGB LED ring. It passed KiCad DRC with **0 errors and 0 unconnected items**, and the fabrication Gerbers are ready.
-- **Rover Carrier Board v1.5 Schematic:** The rover's motherboard schematic, verified with **0 ERC errors**. It separates high-current servo power from sensitive logic, adds I2S audio headers, and includes a 100kΩ/33kΩ resistor divider to monitor the 11.1V battery.
-- **3D Chassis:** A dual-deck chassis designed in OpenSCAD to hold the motors, battery pack, electronics, and camera pan-tilt bracket.
+- Exercise rep counter using MediaPipe pose tracking on the camera to count push-ups or squats.
+- Voice music playback through the I2S amplifier and 3W speaker via voice commands.
+- Auto-docking using the camera to detect an ArUco marker on a charging dock when the battery drops below 15%.
+- Smart AC control using the 940nm IR transmitter to turn the room AC on or off based on DHT11 temperature.
 
----
+## System Architecture
 
-## Features Coming Next (In Progress)
+The project is split between the mobile rover and the wall-powered bedroom satellite pod:
 
-- **Exercise Rep Counter:** Using MediaPipe pose tracking on the camera to count push-ups or squats and check workout form.
-- **Voice Music Playback:** Playing songs and voice responses through the I2S amplifier and 3W speaker via voice commands.
-- **Auto-Docking:** Using the camera to detect an ArUco marker on a charging dock so the rover can drive itself to charge when the battery drops below 15% (`ADC <= 2940`).
-- **Smart AC Control:** Blasting 940nm IR remote codes to turn the room AC on or off based on live temperature readings from the DHT11 sensor.
+**Mobile Rover:**
+- Raspberry Pi 4 (1GB) handles computer vision, OpenCV face tracking, and high-level decisions.
+- ESP32-S3 runs the real-time hardware loop: 4WD motor control, pan-tilt gimbal servos, battery voltage monitoring, and sensors.
+- Pi and ESP32 communicate over high-speed USB serial at 115200 baud.
 
----
-
-## How the System Works
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             AURA V1 AUTONOMOUS MOBILE ROVER                 │
-│                                                             │
-│   [ Raspberry Pi 4 Model B (1GB RAM) ]                      │
-│   • High-Level Brain, OpenCV Computer Vision, Voice AI      │
-│   • MediaPipe Pose Tracking (Exercise Rep Counter)          │
-│   • ArUco Marker Autonomous Docking Navigation              │
-│                              ▲                              │
-│                              │ High-Speed UART / Serial     │
-│                              ▼                              │
-│   [ ESP32-S3 DevKit-C (N16R8) ]                             │
-│   • Instant Real-Time Motor Kinematics (4WD PWM)            │
-│   • 2-Axis Pan-Tilt Gimbal Servos (MG90S)                   │
-│   • HC-SR04 Ultrasonic Emergency Braking (<1ms stop)        │
-│   • 11.1V Battery Fuel Gauge ADC Monitor (Auto-dock <= 15%) │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▲
-                               │ Local Wi-Fi Mesh
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│             AURA BEDROOM SATELLITE POD                      │
-│                                                             │
-│   [ Stationary ESP32-C3 SuperMini Node (5V USB-C Powered) ] │
-│   • 24/7 Room Listening Station (INMP441 + MAX98357A)       │
-│   • Voice-Command Music & Media Playback (3W Speaker)       │
-│   • Dedicated Room ID ("Aura, come here" summoning)         │
-│   • 940nm IR Blaster + DHT11 Closed-Loop Room AC Control    │
-│   • 470µF Bulk Capacitor (Prevents speaker inrush brownouts)│
-└─────────────────────────────────────────────────────────────┘
-```
-
----
+**Bedroom Satellite Pod:**
+- Stationary ESP32-C3 SuperMini plugged into 5V USB wall power.
+- Listens for voice input through an INMP441 I2S microphone and plays audio through a MAX98357A amplifier and 3W speaker.
+- Connects to the rover over local Wi-Fi and controls the bedroom AC using a 940nm IR emitter.
 
 ## Custom KiCad Hardware & PCBs
 
-All PCB design files, schematics, and manufacturing Gerbers are open-source in the [`hardware/`](hardware/) directory:
+All PCB design files, schematics, and manufacturing Gerbers are in the `hardware/` directory:
 
 ### 1. Bedroom Satellite Pod v1.0 (Fabrication-Ready PCB)
-* **Directory:** [`hardware/Aura_Satellite_Pod/`](hardware/Aura_Satellite_Pod/)
-* **Features:** 2-layer board, dual copper ground planes, 15.24mm DIP socket spacing for ESP32-C3 SuperMini, anti-brownout audio filtering, and 4 corner M3 mounting holes.
-* **Status:** **0 DRC Errors, 0 Unconnected Nets**.
-* **Files:** [Schematic PDF](hardware/Aura_Satellite_Pod/Aura_Satellite_Pod_Schematic.pdf) | [Manufacturing Gerbers Zip](hardware/Aura_Satellite_Pod/Gerbers_Aura_Satellite_Pod_v1.0.zip) | [3D Front Render](hardware/Aura_Satellite_Pod/3d_pcb_front.png) | [3D Back Render](hardware/Aura_Satellite_Pod/3d_pcb_back.png)
+- Directory: [`hardware/Aura_Satellite_Pod/`](hardware/Aura_Satellite_Pod/)
+- Features: 2-layer board, dual ground planes, 15.24mm socket spacing for ESP32-C3 SuperMini, anti-brownout audio filtering capacitor, and 4 corner M3 mounting holes.
+- Status: Passed KiCad DRC with 0 errors and 0 unconnected nets.
+- Files: [Schematic PDF](hardware/Aura_Satellite_Pod/Aura_Satellite_Pod_Schematic.pdf) | [Manufacturing Gerbers Zip](hardware/Aura_Satellite_Pod/Gerbers_Aura_Satellite_Pod_v1.0.zip) | [3D Front Render](hardware/Aura_Satellite_Pod/3d_pcb_front.png) | [3D Back Render](hardware/Aura_Satellite_Pod/3d_pcb_back.png)
 
-### 2. Rover Carrier Motherboard v1.5 (Schematic Complete)
-* **Directory:** [`hardware/Aura_v1.5_Carrier/`](hardware/Aura_v1.5_Carrier/)
-* **Features:** Dual isolated buck power rails (`+5V` logic, `+5V_SERVO`), I2S audio inputs/outputs, L298N motor headers, and battery fuel gauge ($100\text{k}\Omega / 33\text{k}\Omega$).
-* **Status:** **0 ERC Errors**.
-* **Files:** [Schematic PDF](hardware/Aura_v1.5_Carrier/Aura_v1.5_Carrier_Schematic.pdf)
+### 2. Rover Carrier Motherboard (Final Production PCB)
+- Directory: [`hardware/Aura_Rover_Carrier_Final/`](hardware/Aura_Rover_Carrier_Final/)
+- Features:
+  - Dual power rails: dedicated 5.1V logic rail (XL4015 buck) for Raspberry Pi 4B, and 5.0V actuator rail (LM2596S buck) with 470µF bulk capacitor for MG90S servos and NeoPixels.
+  - Reverse polarity and auto-docking protection using P-channel MOSFET and SS54 Schottky diode.
+  - High-current motor rail powering L298N drive motors directly from 11.1V battery.
+  - Raspberry Pi hardware watchdog circuit (2N2222 to GLOBAL_EN) to recover if Linux freezes.
+  - Power indicator LEDs, piezo buzzer, and I2C sensor expansion port.
+- Status: Passed KiCad DRC and ERC with 0 errors and 0 unconnected nets. Gerbers generated for JLCPCB.
+- Files: [KiCad Schematic](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final.kicad_sch) | [Schematic PDF](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final_Schematic.pdf) | [PCB File](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final.kicad_pcb) | [Manufacturing Gerbers Zip](hardware/Aura_Rover_Carrier_Final/Gerbers_Aura_Rover_Carrier_Final.zip) | [BOM CSV](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final_BOM.csv) | [3D Top View](hardware/Aura_Rover_Carrier_Final/3d_pcb_carrier_top.png) | [3D Isometric View](hardware/Aura_Rover_Carrier_Final/3d_pcb_carrier_iso.png)
 
----
+### 3. Historical Iteration Archive
+All prior hardware revisions from prototype v1.0 through v1.5 are preserved in [`hardware/archive/`](hardware/archive/).
 
-## Bill of Materials 
+## Bill of Materials
 
-I keep two separate BOM files to be 100% transparent about what I already have on my desk and what I need funding for from Hack Club:
+I keep two BOM files:
 
-1. **[BOM.md](BOM.md) (Hack Club Fallen Grant Request):**  
-   The exact 17 audited items requested through the Hack Club Fallen virtual card totaling **₹9,528 (~$100.67 USD)**, with clickable vendor purchase links for reviewers.
-2. **[Aura_Master_BOM.md](Aura_Master_BOM.md) (Complete 0-to-100 Hardware Inventory):**  
-   The complete system build (32 subsystems totaling ₹11,848), clearly separating:
-   * **Owned by me (I have on my desk):** ₹2,320 (15 subsystems: ESP32-S3, BO motors, wheels, L298N, chassis, sensors, passives).
-   * **Requested from Hack Club Fallen:** ₹9,528 (17 subsystems: Pi 4, CSI camera, MG90S servos, Li-ion 18650 pack, BMS, charger, satellite components).
-
----
+1. [BOM.md](BOM.md) - Hack Club Fallen Grant Request: 17 items requested through the grant totaling ₹9,528 (~$100.67 USD), with clickable vendor purchase links for reviewers.
+2. [Aura_Master_BOM.csv](Aura_Master_BOM.csv) - Complete hardware inventory: 32 subsystems totaling ₹11,848, separating what I already own on my desk (₹2,320) from what is requested through the grant (₹9,528).
 
 ## 3D Chassis Design
 
-The chassis is designed in OpenSCAD with dual-deck standoffs to hold the battery pack, motor drivers, and boards securely:
+The chassis is designed in OpenSCAD with dual-deck standoffs to hold the battery pack, motor drivers, and electronics:
 
 ![Aura v1 Assembly](cad/scad_assembly_render.png)
 
 ![Aura v1 Rear View](cad/scad_rear_view.png)
-
----
 
 ## How to Run Locally
 
@@ -135,5 +98,5 @@ pio run --target upload --upload-port COM6
 ```powershell
 python vision_tracker.py
 ```
-* **Keyboard Driving:** Press **W / A / S / D** to drive manually, **Spacebar** to brake, **Q** to quit.
-* **Auto-Follow:** Stand in front of the camera; the BO motors will automatically steer left/right to keep you centered.
+- Keyboard Driving: Press W / A / S / D to drive manually, Spacebar to brake, Q to quit.
+- Auto-Follow: Stand in front of the camera; the BO motors will automatically steer left/right to keep you centered.
