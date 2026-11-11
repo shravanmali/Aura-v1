@@ -89,11 +89,19 @@ All PCB design files, schematics, and manufacturing Gerbers are open-source in t
 * **Status:** **0 DRC Errors, 0 Unconnected Nets**.
 * **Files:** [Schematic PDF](hardware/Aura_Satellite_Pod/Aura_Satellite_Pod_Schematic.pdf) | [Manufacturing Gerbers Zip](hardware/Aura_Satellite_Pod/Gerbers_Aura_Satellite_Pod_v1.0.zip) | [3D Front Render](hardware/Aura_Satellite_Pod/3d_pcb_front.png) | [3D Back Render](hardware/Aura_Satellite_Pod/3d_pcb_back.png)
 
-### 2. Rover Carrier Motherboard v1.5 (Schematic Complete)
-* **Directory:** [`hardware/Aura_v1.5_Carrier/`](hardware/Aura_v1.5_Carrier/)
-* **Features:** Dual isolated buck power rails (`+5V` logic, `+5V_SERVO`), I2S audio inputs/outputs, L298N motor headers, and battery fuel gauge ($100\text{k}\Omega / 33\text{k}\Omega$).
-* **Status:** **0 ERC Errors**.
-* **Files:** [Schematic PDF](hardware/Aura_v1.5_Carrier/Aura_v1.5_Carrier_Schematic.pdf)
+### 2. Rover Carrier Motherboard (Final Production PCB)
+* **Directory:** [`hardware/Aura_Rover_Carrier_Final/`](hardware/Aura_Rover_Carrier_Final/)
+* **Features:**
+  * **Dual Isolated Power Rails:** Dedicated 5.1V logic rail (Buck #1 XL4015) for Raspberry Pi 4B & audio, and 5.0V actuator rail (Buck #2 LM2596S) with a 470µF bulk capacitor for MG90S servos and NeoPixels.
+  * **Reverse Polarity & Auto-Docking Protection:** `AO3401A` / `IRF9540N` P-channel MOSFET circuit (0.03V drop) and `SS54` Schottky diode protecting dock charging contacts.
+  * **High-Current Motor Rail:** Heavy screw terminal (`J_MOTOR`) powering L298N drive motors directly from 11.1V battery.
+  * **Raspberry Pi Hardware Watchdog:** NPN transistor circuit (`Q4` 2N2222) to hardware-reset Linux via `GLOBAL_EN` if a lockup occurs.
+  * **Visual Diagnostics & Alerts:** 3 power LEDs (Green 11.1V, Blue 5V, Amber 5V Servo), 5V active piezo buzzer, and I2C sensor expansion port.
+* **Status:** **0 ERC Errors, 100% Routed (0 Unconnected Items), 0 DRC Violations, JLCPCB Manufacturing Gerbers Ready**.
+* **Files:** [KiCad Schematic](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final.kicad_sch) | [Schematic PDF](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final_Schematic.pdf) | [PCB File](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final.kicad_pcb) | [Manufacturing Gerbers Zip](hardware/Aura_Rover_Carrier_Final/Gerbers_Aura_Rover_Carrier_Final.zip) | [BOM CSV](hardware/Aura_Rover_Carrier_Final/Aura_Rover_Carrier_Final_BOM.csv) | [3D Top View](hardware/Aura_Rover_Carrier_Final/3d_pcb_carrier_top.png) | [3D Isometric View](hardware/Aura_Rover_Carrier_Final/3d_pcb_carrier_iso.png)
+
+### 3. Historical Iteration Archive
+All prior hardware revisions from prototype v1.0 through v1.5 are preserved in [`hardware/archive/`](hardware/archive/).
 
 ---
 
@@ -103,7 +111,7 @@ I keep two separate BOM files to be 100% transparent about what I already have o
 
 1. **[BOM.md](BOM.md) (Hack Club Fallen Grant Request):**  
    The exact 17 audited items requested through the Hack Club Fallen virtual card totaling **₹9,528 (~$100.67 USD)**, with clickable vendor purchase links for reviewers.
-2. **[Aura_Master_BOM.md](Aura_Master_BOM.md) (Complete 0-to-100 Hardware Inventory):**  
+2. **[Aura_Master_BOM.csv](Aura_Master_BOM.csv) (Complete 0-to-100 Hardware Inventory):**  
    The complete system build (32 subsystems totaling ₹11,848), clearly separating:
    * **Owned by me (I have on my desk):** ₹2,320 (15 subsystems: ESP32-S3, BO motors, wheels, L298N, chassis, sensors, passives).
    * **Requested from Hack Club Fallen:** ₹9,528 (17 subsystems: Pi 4, CSI camera, MG90S servos, Li-ion 18650 pack, BMS, charger, satellite components).

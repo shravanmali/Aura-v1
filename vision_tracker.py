@@ -85,6 +85,7 @@ class RobotSerial:
 
         # Sensor readings received from ESP32
         self.temp = 0.0
+        self.batt = 0.0
         self.hum = 0.0
         self.pir = 0
         self.pir_alert_time = 0
@@ -117,7 +118,9 @@ class RobotSerial:
                                 for item in data_text.split("|"):
                                     if ":" in item:
                                         key, val = item.split(":", 1)
-                                        if key == "T":
+                                        if key == "BATT":
+                                            self.batt = float(val)
+                                        elif key == "T":
                                             self.temp = float(val)
                                         elif key == "H":
                                             self.hum = float(val)
@@ -151,6 +154,7 @@ class RobotSerial:
             is_motion = (self.pir == 1 or (time.time() - self.pir_alert_time < 2.5))
             return {
                 "connected": is_active,
+                "batt": self.batt,
                 "temp": self.temp,
                 "hum": self.hum,
                 "motion": is_motion

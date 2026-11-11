@@ -4400,6 +4400,12 @@
 		(uuid "13784b93-fd95-426e-ac44-566d2eb51aaf")
 	)
 	(junction
+		(at 36.83 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "146d39ac-c39c-472b-a554-b70e278c3c07")
+	)
+	(junction
 		(at 48.26 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4772,16 +4778,16 @@
 		(uuid "df26dd42-95cb-4d29-8f13-c5aa64581fe8")
 	)
 	(junction
-		(at 36.83 63.5)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e264ccb0-49d9-46a0-8b3a-5646bcc44a78")
-	)
-	(junction
 		(at 373.38 215.9)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e6d36ed6-ad7a-4a25-82df-1ca0286c3375")
+	)
+	(junction
+		(at 20.32 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e8eea0fa-bbee-48fa-acd9-5d768158e0d9")
 	)
 	(junction
 		(at 381 205.74)
@@ -4931,7 +4937,7 @@
 	)
 	(wire
 		(pts
-			(xy 19.685 63.5) (xy 26.67 63.5)
+			(xy 19.685 63.5) (xy 20.32 63.5)
 		)
 		(stroke
 			(width 0)
@@ -5298,16 +5304,6 @@
 			(type default)
 		)
 		(uuid "2198d87f-f1f5-4170-8b8d-bc138f6bdef7")
-	)
-	(wire
-		(pts
-			(xy 36.83 63.5) (xy 48.26 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "21b94f6a-f6ad-4dbe-8833-3753f37a01f9")
 	)
 	(wire
 		(pts
@@ -6181,16 +6177,6 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 63.5) (xy 36.83 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6ee80cd5-6001-43f5-9eac-4a72251d2883")
-	)
-	(wire
-		(pts
 			(xy 49.53 20.32) (xy 53.34 20.32)
 		)
 		(stroke
@@ -6258,6 +6244,26 @@
 			(type default)
 		)
 		(uuid "776ea212-731d-4233-b897-aa2cea74bcd1")
+	)
+	(wire
+		(pts
+			(xy 20.32 63.5) (xy 26.67 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79468473-5a6b-4e1b-ae05-e84c626fea99")
+	)
+	(wire
+		(pts
+			(xy 26.67 63.5) (xy 48.26 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79527468-e53a-45e1-ac69-ef92f293ba83")
 	)
 	(wire
 		(pts
@@ -8570,7 +8576,7 @@
 			(uuid "08b43459-c81e-49d9-a247-f304475a694a")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R10")
 					(unit 1)
@@ -8661,7 +8667,7 @@
 			(uuid "ac11e468-d3cd-4a96-bf14-4ff85dc62d14")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "D1")
 					(unit 1)
@@ -8737,7 +8743,7 @@
 			(uuid "d6d97e1f-7fdc-4c50-b11f-a7717c0f099b")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR098")
 					(unit 1)
@@ -8814,7 +8820,7 @@
 			(uuid "84fc6732-fe94-4155-bc7f-bde3bce52f64")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR022")
 					(unit 1)
@@ -8955,7 +8961,7 @@
 			(uuid "4152ae42-d3aa-4f48-b201-c0d3b9f52ff6")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J1")
 					(unit 1)
@@ -9032,7 +9038,7 @@
 			(uuid "ec321a14-3927-4722-b2b7-d745fb86f053")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR011")
 					(unit 1)
@@ -9108,7 +9114,7 @@
 			(uuid "57f2980f-6d8d-42db-84b7-edcd8bc31ea8")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#FLG03")
 					(unit 1)
@@ -9185,7 +9191,7 @@
 			(uuid "9664940a-826d-433b-a96c-79db671eadaf")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR09")
 					(unit 1)
@@ -9266,7 +9272,7 @@
 			(uuid "35986d90-18b2-4980-8068-2f2afe68b15a")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "C4")
 					(unit 1)
@@ -9373,7 +9379,7 @@
 			(uuid "2834787a-edf6-40fa-9f86-9150410abd5f")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "Q5")
 					(unit 1)
@@ -9464,7 +9470,7 @@
 			(uuid "73c58a6e-73c0-4a5e-957a-242278b3ebf1")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "D2")
 					(unit 1)
@@ -9546,7 +9552,7 @@
 			(uuid "a77d081c-722b-463e-9837-752ab08161d1")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J_PI_RESET1")
 					(unit 1)
@@ -9622,7 +9628,7 @@
 			(uuid "b8721355-5e9e-45db-98e0-26244e23c167")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR_GND_Q5")
 					(unit 1)
@@ -9704,7 +9710,7 @@
 			(uuid "7317fff8-7e51-4439-bc37-bddff64bb5f5")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "BZ1")
 					(unit 1)
@@ -9788,7 +9794,7 @@
 			(uuid "258cd408-8895-4242-aec1-62e278f1a152")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J8")
 					(unit 1)
@@ -9929,7 +9935,7 @@
 			(uuid "3997be5b-8833-4560-bcd4-296bc07e4eb0")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J2")
 					(unit 1)
@@ -10008,7 +10014,7 @@
 			(uuid "c861d1c6-ada7-4ec1-b8c1-a91596577c8a")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R8")
 					(unit 1)
@@ -10087,7 +10093,7 @@
 			(uuid "1ef77f40-40d4-4994-8652-b5846fab52ed")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R13")
 					(unit 1)
@@ -10175,7 +10181,7 @@
 			(uuid "89d4780d-deaa-4ec9-96e3-61898d6fd676")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J12")
 					(unit 1)
@@ -10257,7 +10263,7 @@
 			(uuid "3f74a20c-deb6-4921-b4a1-cba0fb8b8255")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J14")
 					(unit 1)
@@ -10341,7 +10347,7 @@
 			(uuid "440d697b-9d9e-4dc1-9ad4-fbe3d6b393a2")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J7")
 					(unit 1)
@@ -10420,7 +10426,7 @@
 			(uuid "f3ba7fb4-8e7d-445f-8d01-d98fe95a650b")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R15")
 					(unit 1)
@@ -10499,7 +10505,7 @@
 			(uuid "63bdcde3-922c-42df-bd12-780e2a6116fd")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "D_CHG1")
 					(unit 1)
@@ -10578,7 +10584,7 @@
 			(uuid "95ec33c2-a661-4c4c-b353-8be3162b158a")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R16")
 					(unit 1)
@@ -10669,7 +10675,7 @@
 			(uuid "3e87fc9f-8f01-4170-b311-df5f55790845")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "D3")
 					(unit 1)
@@ -10746,7 +10752,7 @@
 			(uuid "6e268da0-bfe6-4368-b210-21e1bbe36f1f")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR03")
 					(unit 1)
@@ -10852,7 +10858,7 @@
 			(uuid "9b8fc48a-4252-4ced-a6ec-e32beb085952")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "Q2")
 					(unit 1)
@@ -10931,7 +10937,7 @@
 			(uuid "ab1b5f0c-6408-4ee0-8bec-f77616c52157")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R5")
 					(unit 1)
@@ -11010,7 +11016,7 @@
 			(uuid "27b5d9af-3a54-4b72-9fb2-a77971d4b2ff")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R17")
 					(unit 1)
@@ -11095,7 +11101,7 @@
 			(uuid "a70b8e0a-a5ae-4c02-b89d-974131caf12e")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J10")
 					(unit 1)
@@ -11172,7 +11178,7 @@
 			(uuid "e032264f-2fb9-42d2-931c-a5a85fa6f243")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR015")
 					(unit 1)
@@ -11253,7 +11259,7 @@
 			(uuid "55d6abe0-a8c1-4016-a422-8aa59dfd3965")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J_DOCK1")
 					(unit 1)
@@ -11333,7 +11339,7 @@
 			(uuid "3c458e54-41ef-4cbe-9b02-b03b371637ae")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "F1")
 					(unit 1)
@@ -11418,7 +11424,7 @@
 			(uuid "ba0131b8-19c7-4526-ab12-382b8000d0cf")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J11")
 					(unit 1)
@@ -11503,7 +11509,7 @@
 			(uuid "f0ba84aa-f1f1-4822-91ef-e1764757205c")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J6")
 					(unit 1)
@@ -11580,7 +11586,7 @@
 			(uuid "404b4328-a4b1-496f-844b-049ce34e7e28")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR02")
 					(unit 1)
@@ -11664,7 +11670,7 @@
 			(uuid "5e33a8d5-e724-4290-8384-8f7901c9a019")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "Q3")
 					(unit 1)
@@ -11741,7 +11747,7 @@
 			(uuid "c23af6f5-9fed-4e21-af13-faab86b50483")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR012")
 					(unit 1)
@@ -11818,7 +11824,7 @@
 			(uuid "94f50850-230a-48ee-b503-b8b22df2a422")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR020")
 					(unit 1)
@@ -11896,7 +11902,7 @@
 			(uuid "c53dd803-2c8e-40ba-943c-6a049e1c6aef")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR05")
 					(unit 1)
@@ -11973,7 +11979,7 @@
 			(uuid "8f631fa4-f83c-44b2-b546-afc3e984aec4")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR016")
 					(unit 1)
@@ -12080,7 +12086,7 @@
 			(uuid "274a877f-9ea0-4ac7-a08d-d77866523724")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "Q4")
 					(unit 1)
@@ -12174,7 +12180,7 @@
 			(uuid "f50f0293-a720-4bf4-894d-1360386615b9")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J16")
 					(unit 1)
@@ -12253,7 +12259,7 @@
 			(uuid "c8061a6f-5211-4be4-abd0-a67e1b2e7528")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R9")
 					(unit 1)
@@ -12335,7 +12341,7 @@
 			(uuid "3abb003c-eb23-4169-a1a3-f805a1afc170")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "C1")
 					(unit 1)
@@ -12414,7 +12420,7 @@
 			(uuid "58b29c61-86fb-4033-91d3-7c13e0e38afb")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R1")
 					(unit 1)
@@ -12493,7 +12499,7 @@
 			(uuid "512d0153-2cec-4b42-8cfa-96f26d1a01bd")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J5")
 					(unit 1)
@@ -12578,7 +12584,7 @@
 			(uuid "f0b06fef-51d7-4c62-883f-c0e6581047ff")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J9")
 					(unit 1)
@@ -12684,7 +12690,7 @@
 			(uuid "438c61ea-f0ec-4880-a094-3e305e7f4520")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "Q1")
 					(unit 1)
@@ -12761,7 +12767,7 @@
 			(uuid "105dd6a7-caf6-43f6-b115-bc5189ad9bf8")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR019")
 					(unit 1)
@@ -12842,7 +12848,7 @@
 			(uuid "b99cf157-9910-49ef-9777-15d8b7a37275")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R3")
 					(unit 1)
@@ -12919,7 +12925,7 @@
 			(uuid "4b41b0ff-dcf1-47fc-820f-1ce7cc9bb8d5")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR07")
 					(unit 1)
@@ -13001,7 +13007,7 @@
 			(uuid "c4146425-929b-4d49-8399-4c450e975b0f")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "C3")
 					(unit 1)
@@ -13092,7 +13098,7 @@
 			(uuid "09372752-5314-4fce-a5fc-cf76d6a5b2bf")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J3")
 					(unit 1)
@@ -13169,7 +13175,7 @@
 			(uuid "4ade04b8-b231-42d9-b898-209d542166a9")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR023")
 					(unit 1)
@@ -13248,9 +13254,87 @@
 			(uuid "bb1c1a04-b113-460b-8e60-1388730a207f")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 20.32 63.5 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b98f868d-fac7-472b-b0f3-32487d6c75b4")
+		(property "Reference" "#FLG01"
+			(at 20.32 61.595 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 20.32 58.42 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 20.32 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 20.32 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 20.32 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7927b768-ac1c-4e03-b5a6-e54fe1d2ba6e")
+		)
+		(instances
+			(project "Aura_Rover_Carrier_Final"
+				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
+					(reference "#FLG01")
 					(unit 1)
 				)
 			)
@@ -13325,7 +13409,7 @@
 			(uuid "ff0100a9-cb77-48ae-8c5e-192ee6ca39f2")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR021")
 					(unit 1)
@@ -13406,7 +13490,7 @@
 			(uuid "c48bf138-9343-4a12-b1a4-be6c7f2ee4f8")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "C2")
 					(unit 1)
@@ -13483,7 +13567,7 @@
 			(uuid "41d9fb1b-46d3-4a61-8a29-bb45df02e0af")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR017")
 					(unit 1)
@@ -13562,7 +13646,7 @@
 			(uuid "1c28ff0f-b024-4e84-93af-0679aecfdae1")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J_MOTOR1")
 					(unit 1)
@@ -13641,7 +13725,7 @@
 			(uuid "0996c7e8-22b4-4db5-95cb-7e8416fd10fc")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R11")
 					(unit 1)
@@ -13718,7 +13802,7 @@
 			(uuid "12d830ec-abf5-4c12-8503-96b2df87994a")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR013")
 					(unit 1)
@@ -13803,7 +13887,7 @@
 			(uuid "1f1ffa63-6b52-4aa9-9381-9f3add15c786")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J4")
 					(unit 1)
@@ -13882,7 +13966,7 @@
 			(uuid "d5f82e49-4f43-4155-b81a-a145b4eac995")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R2")
 					(unit 1)
@@ -13968,7 +14052,7 @@
 			(uuid "9c3e7699-d521-4ad9-ad47-97a3f4357259")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J_I2C1")
 					(unit 1)
@@ -14046,7 +14130,7 @@
 			(uuid "40d441ed-3cab-4315-9580-3297f8e1e76d")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#FLG02")
 					(unit 1)
@@ -14123,7 +14207,7 @@
 			(uuid "fb517c1b-85ca-4d09-a37c-91facdff93e5")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR014")
 					(unit 1)
@@ -14217,7 +14301,7 @@
 			(uuid "0db26571-964c-471f-bb32-ef4a383d1e65")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J18")
 					(unit 1)
@@ -14302,7 +14386,7 @@
 			(uuid "765ad65a-80d5-4524-8888-affc50612fb7")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J13")
 					(unit 1)
@@ -14381,7 +14465,7 @@
 			(uuid "f73bffec-c5e9-46f5-82f2-565f4eade64c")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "J15")
 					(unit 1)
@@ -14462,7 +14546,7 @@
 			(uuid "62f5ff14-ab63-4a46-b08d-7af1b85d5317")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R4")
 					(unit 1)
@@ -14539,7 +14623,7 @@
 			(uuid "c3efda5d-9b1c-4267-960e-42ee67016043")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR08")
 					(unit 1)
@@ -14616,7 +14700,7 @@
 			(uuid "35b1db93-2b24-423d-a063-1c2ef46657fd")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR01")
 					(unit 1)
@@ -14695,7 +14779,7 @@
 			(uuid "8affd9e2-655f-4434-9ae5-3be947d927f9")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R6")
 					(unit 1)
@@ -14774,7 +14858,7 @@
 			(uuid "8c5ecf8c-4d96-4912-b83e-245816b5de58")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R12")
 					(unit 1)
@@ -14855,7 +14939,7 @@
 			(uuid "4ee000be-2f59-49ec-8bf4-593c08a5df30")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "D_DOCK1")
 					(unit 1)
@@ -14934,7 +15018,7 @@
 			(uuid "ba636f0d-1250-435f-8326-f9a57bb718e1")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "R14")
 					(unit 1)
@@ -15011,7 +15095,7 @@
 			(uuid "edb747ba-efb1-44d7-a810-0fe31d3b7ace")
 		)
 		(instances
-			(project "Aura_v1.6_Carrier"
+			(project "Aura_Rover_Carrier_Final"
 				(path "/a6bf2a64-7c38-40ea-9426-302efd297a78"
 					(reference "#PWR018")
 					(unit 1)
